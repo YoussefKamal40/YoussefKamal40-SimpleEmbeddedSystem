@@ -101,7 +101,7 @@ void SysTick_setTime(uint32_t time_US , uint32_t AHB_clock)
 		{
 			overflowsNeededForDesiredT = timeUS_NS / timeOverFlow_NS ;
 			remaining_time = timeUS_NS % timeOverFlow_NS ;
-			preload_value = (remaining_time * STK_MAX_NUM_OF_TICKS)/ timeOverFlow_NS;
+			preload_value = (remaining_time * (STK_MAX_NUM_OF_TICKS - 1))/ timeOverFlow_NS;
 			STK_LOAD = preload_value;
 			currentOverflowsNeeded = overflowsNeededForDesiredT;
 		}
@@ -120,7 +120,7 @@ void SysTick_setTime(uint32_t time_US , uint32_t AHB_clock)
 		{
 			overflowsNeededForDesiredT = timeUS_NS / timeOverFlow_NS ;
 			remaining_time = timeUS_NS % timeOverFlow_NS ;
-			preload_value = (remaining_time * STK_MAX_NUM_OF_TICKS) / timeOverFlow_NS;
+			preload_value = (remaining_time * (STK_MAX_NUM_OF_TICKS - 1)) / timeOverFlow_NS;
 			STK_LOAD = preload_value;
 			currentOverflowsNeeded = overflowsNeededForDesiredT;
 		}
@@ -148,7 +148,7 @@ void SysTick_Handler(void)
 	}
 	else
 	{
-		STK_LOAD = ((uint64_t)(2^STK_BIT_RESELUTION)) - 1;
+		STK_LOAD = ((uint64_t)(STK_MAX_NUM_OF_TICKS)) - 1;
 		currentOverflowsNeeded--;
 	}
 
