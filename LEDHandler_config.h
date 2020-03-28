@@ -1,0 +1,6 @@
+#ifndef LEDHANDLER_CONFIG_H_
+#define LEDHANDLER_CONFIG_H_
+
+#define NUMBER_OF_LEDS 3
+
+#endif /* LEDHANDLER_CONFIG_H_ */
