@@ -29,7 +29,7 @@
 
 #define STK_BIT_RESELUTION        ((uint32_t)24)
 #define STK_PRESCALER             ((uint32_t)8)
-#define STK_MAX_NUM_OF_TICKS      (16777216)
+#define STK_MAX_NUM_OF_TICKS      (0xFFFFFFU)
 
 #define CONV_NUM_FROM_SEC_TO_NS   (1000000000U)
 #define CONV_NUM_FROM_US_TO_NS    (1000U)
@@ -44,9 +44,8 @@ static uint32_t currentOverflowsNeeded;
 
 void SysTick_init(void)
 {
-	/*SysTick exception request enable*/
 	STK_CTRL |= STK_CTRL_TICKINT_MASK ;
-	if ( (STK_CLOCK_SRC == EXTERNAL_REF_CLOCK) && (( STK_CALIB && STK_CALIB_NOREF_MASK ) >> STK_CALIB_BIT_NUM == 0 ))
+	if (STK_CLOCK_SRC == EXTERNAL_REF_CLOCK)
 	{
 		STK_CTRL &= ~(STK_CTRL_CLKSOURCE_MASK);
 	}
@@ -70,7 +69,7 @@ void SysTick_stop(void)
 
 void SysTick_setClockSrc(uint32_t clockSrc)
 {
-	if ( (clockSrc == EXTERNAL_REF_CLOCK) && (( STK_CALIB && STK_CALIB_NOREF_MASK ) >> STK_CALIB_BIT_NUM == 0 ))
+	if(clockSrc == EXTERNAL_REF_CLOCK)
 	{
 		STK_CTRL &= ~(STK_CTRL_CLKSOURCE_MASK);
 	}
@@ -80,27 +79,29 @@ void SysTick_setClockSrc(uint32_t clockSrc)
 	}
 }
 
-void SysTick_setTime(uint32_t time_US , uint32_t AHB_clock)
+void SysTick_setTime(uint32_t time_US , uint32_t input_clock)
 {
 	uint32_t timeOfOneCount_NS;
-	uint32_t timeUS_NS;
+	uint64_t timeUS_NS;
 	uint32_t timeOverFlow_NS;
 	uint32_t remaining_time;
-	timeUS_NS = (uint64_t) time_US * (uint64_t) (CONV_NUM_FROM_US_TO_NS);
-	if ((STK_CLOCK_SRC == EXTERNAL_REF_CLOCK) && (( STK_CALIB && STK_CALIB_NOREF_MASK ) >> STK_CALIB_BIT_NUM == 0 ))
+	timeUS_NS = (uint64_t)(time_US) * (uint64_t)(CONV_NUM_FROM_US_TO_NS);
+	
+	if(STK_CLOCK_SRC == EXTERNAL_REF_CLOCK)
 	{
-		timeOfOneCount_NS = ((uint64_t)(CONV_NUM_FROM_SEC_TO_NS)/ ((uint64_t)(AHB_clock)/STK_PRESCALER)) ;
-		timeOverFlow_NS = STK_MAX_NUM_OF_TICKS * (timeOfOneCount_NS);
+		timeOfOneCount_NS = ((uint64_t)(CONV_NUM_FROM_SEC_TO_NS)/((uint64_t)(input_clock)/STK_PRESCALER));
+		timeOverFlow_NS = STK_MAX_NUM_OF_TICKS * timeOfOneCount_NS;
+		
 		if(timeUS_NS <= timeOverFlow_NS )
 		{
 			STK_LOAD = timeUS_NS / timeOfOneCount_NS ;
-			overflowsNeededForDesiredT = 0;
+			currentOverflowsNeeded = 0;
 		}
 		else if (timeUS_NS > timeOverFlow_NS)
 		{
 			overflowsNeededForDesiredT = timeUS_NS / timeOverFlow_NS ;
 			remaining_time = timeUS_NS % timeOverFlow_NS ;
-			preload_value = (remaining_time * (STK_MAX_NUM_OF_TICKS - 1))/ timeOverFlow_NS;
+			preload_value  = (remaining_time * STK_MAX_NUM_OF_TICKS)/ timeOverFlow_NS;
 			STK_LOAD = preload_value;
 			currentOverflowsNeeded = overflowsNeededForDesiredT;
 		}
@@ -108,18 +109,19 @@ void SysTick_setTime(uint32_t time_US , uint32_t AHB_clock)
 
 	else if (STK_CLOCK_SRC == FREE_RUNNIG_CLOCK)
 	{
-		timeOfOneCount_NS = ((uint64_t)(CONV_NUM_FROM_SEC_TO_NS)/ ((uint64_t)(AHB_clock)) ) ;
-		timeOverFlow_NS = (2^STK_BIT_RESELUTION) * timeOfOneCount_NS;
+		timeOfOneCount_NS = ((uint64_t)(CONV_NUM_FROM_SEC_TO_NS)/ ((uint64_t)(input_clock)) ) ;
+		timeOverFlow_NS = STK_MAX_NUM_OF_TICKS * timeOfOneCount_NS;
+		
 		if(timeUS_NS <= timeOverFlow_NS )
 		{
 			STK_LOAD = timeUS_NS / timeOfOneCount_NS ;
-			overflowsNeededForDesiredT = 0;
+			currentOverflowsNeeded = 0;
 		}
 		else if (timeUS_NS > timeOverFlow_NS)
 		{
 			overflowsNeededForDesiredT = timeUS_NS / timeOverFlow_NS ;
 			remaining_time = timeUS_NS % timeOverFlow_NS ;
-			preload_value = (remaining_time * (STK_MAX_NUM_OF_TICKS - 1)) / timeOverFlow_NS;
+			preload_value = (remaining_time * STK_MAX_NUM_OF_TICKS) / timeOverFlow_NS;
 			STK_LOAD = preload_value;
 			currentOverflowsNeeded = overflowsNeededForDesiredT;
 		}
@@ -147,7 +149,7 @@ void SysTick_Handler(void)
 	}
 	else
 	{
-		STK_LOAD = ((uint64_t)(STK_MAX_NUM_OF_TICKS)) - 1;
+		STK_LOAD = ((uint64_t)(STK_MAX_NUM_OF_TICKS));
 		currentOverflowsNeeded--;
 	}
 
