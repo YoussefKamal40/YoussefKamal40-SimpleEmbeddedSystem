@@ -79,28 +79,28 @@ void SysTick_setClockSrc(uint32_t clockSrc)
 	}
 }
 
-void SysTick_setTime(uint32_t time_US , uint32_t input_clock)
+void SysTick_setTime(uint32_t desiredTime_US , uint32_t input_clock)
 {
 	uint32_t timeOfOneCount_NS;
-	uint64_t timeUS_NS;
+	uint64_t desiredTime_NS;
 	uint32_t timeOverFlow_NS;
 	uint32_t remaining_time;
-	timeUS_NS = (uint64_t)(time_US) * (uint64_t)(CONV_NUM_FROM_US_TO_NS);
+	desiredTime_NS = (uint64_t)(desiredTime_US) * (uint64_t)(CONV_NUM_FROM_US_TO_NS);
 	
 	if(STK_CLOCK_SRC == EXTERNAL_REF_CLOCK)
 	{
 		timeOfOneCount_NS = ((uint64_t)(CONV_NUM_FROM_SEC_TO_NS)/((uint64_t)(input_clock)/STK_PRESCALER));
 		timeOverFlow_NS = STK_MAX_NUM_OF_TICKS * timeOfOneCount_NS;
 		
-		if(timeUS_NS <= timeOverFlow_NS )
+		if(desiredTime_NS <= timeOverFlow_NS )
 		{
-			STK_LOAD = timeUS_NS / timeOfOneCount_NS ;
+			STK_LOAD = desiredTime_NS / timeOfOneCount_NS ;
 			currentOverflowsNeeded = 0;
 		}
-		else if (timeUS_NS > timeOverFlow_NS)
+		else if (desiredTime_NS > timeOverFlow_NS)
 		{
-			overflowsNeededForDesiredT = timeUS_NS / timeOverFlow_NS ;
-			remaining_time = timeUS_NS % timeOverFlow_NS ;
+			overflowsNeededForDesiredT = desiredTime_NS / timeOverFlow_NS ;
+			remaining_time = desiredTime_NS % timeOverFlow_NS ;
 			preload_value  = (remaining_time * STK_MAX_NUM_OF_TICKS)/ timeOverFlow_NS;
 			STK_LOAD = preload_value;
 			currentOverflowsNeeded = overflowsNeededForDesiredT;
@@ -112,15 +112,15 @@ void SysTick_setTime(uint32_t time_US , uint32_t input_clock)
 		timeOfOneCount_NS = ((uint64_t)(CONV_NUM_FROM_SEC_TO_NS)/ ((uint64_t)(input_clock)) ) ;
 		timeOverFlow_NS = STK_MAX_NUM_OF_TICKS * timeOfOneCount_NS;
 		
-		if(timeUS_NS <= timeOverFlow_NS )
+		if(desiredTime_NS <= timeOverFlow_NS )
 		{
-			STK_LOAD = timeUS_NS / timeOfOneCount_NS ;
+			STK_LOAD = desiredTime_NS / timeOfOneCount_NS ;
 			currentOverflowsNeeded = 0;
 		}
-		else if (timeUS_NS > timeOverFlow_NS)
+		else if (desiredTime_NS > timeOverFlow_NS)
 		{
-			overflowsNeededForDesiredT = timeUS_NS / timeOverFlow_NS ;
-			remaining_time = timeUS_NS % timeOverFlow_NS ;
+			overflowsNeededForDesiredT = desiredTime_NS / timeOverFlow_NS ;
+			remaining_time = desiredTime_NS % timeOverFlow_NS ;
 			preload_value = (remaining_time * STK_MAX_NUM_OF_TICKS) / timeOverFlow_NS;
 			STK_LOAD = preload_value;
 			currentOverflowsNeeded = overflowsNeededForDesiredT;
