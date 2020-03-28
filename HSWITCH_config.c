@@ -5,6 +5,7 @@
  *      Author: LENOVO.SXM1
  */
 
+#include "STD_TYPES_H.h"
 #include "HSWITCH_config.h"
 #include "HSWITCH_interface.h"
 
