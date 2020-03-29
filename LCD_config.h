@@ -2,7 +2,7 @@
  * LCD_config.h
  *
  *  Created on: Mar 28, 2020
- *      Author: LENOVO.SXM1
+ *      Author: Sarah
  */
 
 #ifndef LCD_CONFIG_H_

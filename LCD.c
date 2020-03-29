@@ -2,9 +2,8 @@
  * LCD.c
  *
  *  Created on: Mar 28, 2020
- *      Author: LENOVO.SXM1
+ *      Author: sarah
  */
-
 
 #include "STD_TYPES_H.h"
 #include "GPIO_Interface.h"

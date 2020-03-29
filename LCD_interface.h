@@ -2,7 +2,7 @@
  * LCD_interface.h
  *
  *  Created on: Mar 28, 2020
- *      Author: LENOVO.SXM1
+ *      Author: sarah
  */
 
 #ifndef LCD_INTERFACE_H_
@@ -42,6 +42,7 @@ Status_t lcd_applyCommand(u8 cmd);
 #define SPEED_2M	GPIO_2M_SPEED
 #define	SPEED_50M	GPIO_50M_SPEED
 
+/*commands*/
 
 #define PIN_0 	GPIO_PIN_0
 #define PIN_1 	GPIO_PIN_1
@@ -53,12 +54,12 @@ Status_t lcd_applyCommand(u8 cmd);
 #define PIN_7 	GPIO_PIN_7
 #define PIN_8 	GPIO_PIN_8
 #define PIN_9 	GPIO_PIN_9
-#define PIN_10 (GPIO_PIN_10
-#define PIN_11 (GPIO_PIN_11
-#define PIN_12 (GPIO_PIN_12
-#define PIN_13 (GPIO_PIN_13
-#define PIN_14 (GPIO_PIN_14
-#define PIN_15 (GPIO_PIN_15
+#define PIN_10  GPIO_PIN_10
+#define PIN_11  GPIO_PIN_11
+#define PIN_12  GPIO_PIN_12
+#define PIN_13  GPIO_PIN_13
+#define PIN_14  GPIO_PIN_14
+#define PIN_15  GPIO_PIN_15
 
 #define PORT_A	GPIO_A_PORT
 #define PORT_B	GPIO_B_PORT
@@ -67,7 +68,6 @@ Status_t lcd_applyCommand(u8 cmd);
 #define PORT_E	GPIO_E_PORT
 #define PORT_F	GPIO_F_PORT
 #define PORT_G	GPIO_G_PORT
-
 
 #define STATUS_OK		0
 #define STATUS_BUSY		1
