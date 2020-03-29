@@ -2,8 +2,9 @@
  * HSWITCH.C
  *
  *  Created on: Mar 25, 2020
- *      Author: LENOVO.SXM1
+ *      Author: Sarah
  */
+
 #include "STD_TYPES_H.h"
 #include "HSWITCH_interface.h"
 #include "HSWITCH_config.h"
@@ -45,7 +46,6 @@ void HSWITCH_init(void)
 		GPIOs[index].speed=GPIO_10M_SPEED;
 		GPIO_configPins(&GPIOs[index]);
 	}
-
 }
 
 

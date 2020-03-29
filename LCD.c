@@ -22,8 +22,8 @@ static void LCD_8bitWriteProcess(void);
 #define RS 0
 #define RW 1
 #define E  2
-#define ZERO_VALUE	((u8)0)
-#define ONE_VALUE	((u8)1)
+#define ZERO_VALUE	GPIO_LOW_VALUE
+#define ONE_VALUE	GPIO_HIGH_VALUE
 
 #define INIT_COMPLETED	1
 #define	INIT_NOT_COMPLETED 0

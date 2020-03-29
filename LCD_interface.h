@@ -38,35 +38,35 @@ Status_t lcd_applyCommand(u8 cmd);
 #define SMALL_FONT	0
 #define LARGE_FONT	1
 
-#define SPEED_10M	((u32)0b01)
-#define SPEED_2M	((u32)0b10)
-#define	SPEED_50M	((u32)0b11)
+#define SPEED_10M	GPIO_10M_SPEED
+#define SPEED_2M	GPIO_2M_SPEED
+#define	SPEED_50M	GPIO_50M_SPEED
 
 
-#define PIN_0 	((u16)0x1)
-#define PIN_1 	((u16)0x2)
-#define PIN_2 	((u16)0x4)
-#define PIN_3 	((u16)0x8)
-#define PIN_4 	((u16)0x10)
-#define PIN_5 	((u16)0x20)
-#define PIN_6 	((u16)0x40)
-#define PIN_7 	((u16)0x80)
-#define PIN_8 	((u16)0x100)
-#define PIN_9 	((u16)0x200)
-#define PIN_10 ((u16)0x400)
-#define PIN_11 ((u16)0x800)
-#define PIN_12 ((u16)0x1000)
-#define PIN_13 ((u16)0x2000)
-#define PIN_14 ((u16)0x4000)
-#define PIN_15 ((u16)0x8000)
+#define PIN_0 	GPIO_PIN_0
+#define PIN_1 	GPIO_PIN_1
+#define PIN_2 	GPIO_PIN_2
+#define PIN_3 	GPIO_PIN_3
+#define PIN_4 	GPIO_PIN_4
+#define PIN_5 	GPIO_PIN_5
+#define PIN_6 	GPIO_PIN_6
+#define PIN_7 	GPIO_PIN_7
+#define PIN_8 	GPIO_PIN_8
+#define PIN_9 	GPIO_PIN_9
+#define PIN_10 (GPIO_PIN_10
+#define PIN_11 (GPIO_PIN_11
+#define PIN_12 (GPIO_PIN_12
+#define PIN_13 (GPIO_PIN_13
+#define PIN_14 (GPIO_PIN_14
+#define PIN_15 (GPIO_PIN_15
 
-#define PORT_A	((void*)0x40010800)
-#define PORT_B	((void*)0x40010c00)
-#define PORT_C	((void*)0x40011000)
-#define PORT_D	((void*)0x40011400)
-#define PORT_E	((void*)0x40011800)
-#define PORT_F	((void*)0x40011c00)
-#define PORT_G	((void*)0x40012000)
+#define PORT_A	GPIO_A_PORT
+#define PORT_B	GPIO_B_PORT
+#define PORT_C	GPIO_C_PORT
+#define PORT_D	GPIO_D_PORT
+#define PORT_E	GPIO_E_PORT
+#define PORT_F	GPIO_F_PORT
+#define PORT_G	GPIO_G_PORT
 
 
 #define STATUS_OK		0
