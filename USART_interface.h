@@ -36,12 +36,10 @@ typedef struct USART_Type
 	f32 baudRate;
 	void* ID;
 	u8 parity;
-	u8 reserved1;
-	u16 reserved2;
-}USARTData_Type;
+}USARTConfig_Type;
 
 void USART_init(void* ID);
-void USART_config(USARTData_Type* data);
+void USART_config(USARTConfig_Type* data);
 USART_ErrorType USART_send(void* ID,const u8* buffer,u16 length,handlerNotifyType notifyFunction);
 USART_ErrorType USART_receive(void* ID,u8* buffer,u16 length,handlerNotifyType notifyFunction);
 

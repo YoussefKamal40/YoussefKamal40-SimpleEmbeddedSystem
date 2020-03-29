@@ -42,15 +42,15 @@ typedef struct GPIO_pinType
 #define GPIO_AFOUT_OD_MODE			((u32)0b11110)
 #define GPIO_INPUT_ANALOG_MODE		((u32)0b00000)
 #define GPIO_INPUT_FLOAT_MODE		((u32)0b01000)
-#define GPIO_INPUT_PULL_UP_MODE		((u32)0b10000)
-#define GPIO_INPUT_PULL_DOWN_MODE	((u32)0b10001)
+#define GPIO_INPUT_PULL_UP_MODE		((u32)0b10001)
+#define GPIO_INPUT_PULL_DOWN_MODE	((u32)0b10000)
 
-#define GPIO_10M_SPEED	((u32)0b01)
-#define GPIO_2M_SPEED	((u32)0b10)
-#define GPIO_50M_SPEED	((u32)0b11)
+#define GPIO_10M_SPEED	((u32)0b1101)
+#define GPIO_2M_SPEED	((u32)0b1110)
+#define GPIO_50M_SPEED	((u32)0b1111)
 
 #define GPIO_HIGH_VALUE ((u8)1)
-#define GPIO_LOW_VALUE ((u8)0)
+#define GPIO_LOW_VALUE 	((u8)0)
 
 void GPIO_configPins(GPIO_pinType* pins);
 void GPIO_setPinValue(GPIO_pinType* pins);

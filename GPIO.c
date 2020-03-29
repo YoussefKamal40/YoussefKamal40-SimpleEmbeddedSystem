@@ -24,7 +24,7 @@ void GPIO_configPins(GPIO_pinType* pins)
 	u32 mode;
 	u32 temp;
 
-	GPIO=((volatile GPIOType* const)pins->port);
+	GPIO=((volatile GPIOType* )pins->port);
 	if(pins->pin&((u16)0xff))
 	{
 		for(i=0;i<8;i++)
@@ -77,7 +77,7 @@ void GPIO_setPinValue(GPIO_pinType* pins)
 {
 	volatile GPIOType* GPIO;
 
-	GPIO=((volatile GPIOType* const)pins->port);
+	GPIO=((volatile GPIOType* )pins->port);
 	if(pins->value)
 	{
 		GPIO->BSR=((u32)pins->pin);
@@ -92,7 +92,7 @@ void GPIO_getPinValue(GPIO_pinType* pin)
 {
 	volatile GPIOType* GPIO;
 
-	GPIO=((volatile GPIOType* const)pin->port);
+	GPIO=((volatile GPIOType* )pin->port);
 	if(GPIO->IDR&pin->pin)
 	{
 		pin->value=1;
