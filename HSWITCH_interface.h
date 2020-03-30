@@ -9,7 +9,6 @@
 #define HSWITCH_INTERFACE_H_
 
 
-
 #define	NOT_PRESSED_STATE ((u8)0)
 #define	PRESSED_STATE ((u8)1)
 
@@ -42,6 +41,12 @@
 #define PORTE    GPIO_E_PORT
 #define PORTF    GPIO_F_PORT
 #define PORTG    GPIO_G_PORT
+
+typedef struct {
+    u32 mode;
+    u16 pin;
+    void* port;
+}switch_type;
 
 void HSWITCH_debounce_runnable(void);
 void HSWITCH_init(void);
