@@ -201,7 +201,7 @@ u8 setPLLSystemSource(u32 PLLSourceControl,u32 PLLSourceSysSource,u32 controlDis
 	error|=RCC_u8_SelectPLLConfig(PLLSource,PLLFactors[multFactor-PLL_MULT_FACT_OFFSET]);
 	error|=RCC_u8_ControlClock(RCC_u32_CLOCK_CONTROL_PLL,RCC_u8_ENABLE);
 	error|=RCC_u8_SelectSystemClock(RCC_u32_PLL_SYS_SOURCE);
-	if(!error)
+	if(error)
 	{
 		error=SYS_HAN_NOK;
 	}
@@ -220,7 +220,7 @@ SYS_error SYS_HAN_setAHBClock(u32 clock)
 	u32 prescaler;
 	u8 prescalerIndex=0;
 
-	if(clock<=sysClock&&clock<=SYS_HAN_MAX_AHB_CLOCK&&!(sysClock%clock)&&!clock)
+	if((clock<=sysClock)&&(clock<=SYS_HAN_MAX_AHB_CLOCK)&&(!(sysClock%clock))&&clock)
 	{
 		prescaler=sysClock/clock;
 		while(prescaler>1)
@@ -264,7 +264,7 @@ SYS_error SYS_HAN_setAPB1Clock(u32 clock)
 	u32 prescaler;
 	u8 prescalerIndex=0;
 
-	if(clock<=sysClock&&clock<=SYS_HAN_MAX_APB1_CLOCK&&!(sysClock%clock)&&!clock)
+	if(clock<=sysClock&&clock<=SYS_HAN_MAX_APB1_CLOCK&&!(sysClock%clock)&&clock)
 	{
 		prescaler=sysClock/clock;
 		while(prescaler>1)
@@ -308,7 +308,7 @@ SYS_error SYS_HAN_setAPB2Clock(u32 clock)
 	u32 prescaler;
 	u8 prescalerIndex=0;
 
-	if(clock<=sysClock&&clock<=SYS_HAN_MAX_APB2_CLOCK&&!(sysClock%clock)&&!clock)
+	if(clock<=sysClock&&clock<=SYS_HAN_MAX_APB2_CLOCK&&!(sysClock%clock)&&clock)
 	{
 		prescaler=sysClock/clock;
 		while(prescaler>1)

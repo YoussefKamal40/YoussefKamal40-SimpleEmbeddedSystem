@@ -41,11 +41,11 @@ void USART3_IRQHandler(void);
 void UART4_IRQHandler(void);
 void UART5_IRQHandler(void);
 
-static handlerNotifyType sendNotify[NUMBER_OF_UARTS];
-static handlerNotifyType receiveNotify[NUMBER_OF_UARTS];
+static volatile handlerNotifyType sendNotify[NUMBER_OF_UARTS];
+static volatile handlerNotifyType receiveNotify[NUMBER_OF_UARTS];
 
-static bufferType TxBuffer[NUMBER_OF_UARTS];
-static bufferType RxBuffer[NUMBER_OF_UARTS];
+static volatile bufferType TxBuffer[NUMBER_OF_UARTS];
+static volatile bufferType RxBuffer[NUMBER_OF_UARTS];
 
 static const u8 USART_InterruptNumber[NUMBER_OF_UARTS]=
 {
@@ -120,7 +120,7 @@ void USART_init(void* ID)
 	TxBuffer[USARTIndex].state=IDLE;
 }
 
-void USART_config(USARTData_Type* data)
+void USART_config(USARTConfig_Type* data)
 {
 	volatile USARTtype* USART;
 	f32 BRRValue;
@@ -327,11 +327,19 @@ static void USART_GeneralHandler(volatile USARTtype* const USART)
 				/*Disable Interrupt*/
 				USART->CR1&=~USART_CR1_TXEIE;
 				USART->DR=TxBuffer[USARTIndex].ptr[TxBuffer[USARTIndex].position];
+				TxBuffer[USARTIndex].position++;
+				/*Enable transmit complete interrupt*/
+				USART->CR1|=USART_CR1_TCIE;
+			}
+			else if(TxBuffer[USARTIndex].size==TxBuffer[USARTIndex].position)
+			{
 				TxBuffer[USARTIndex].state=IDLE;
 				if(sendNotify[USARTIndex])
 				{
 					sendNotify[USARTIndex]();
 				}
+				/*Disable transmit complete interrupt*/
+				USART->CR1&=~USART_CR1_TCIE;
 			}
 			else
 			{
@@ -347,15 +355,15 @@ static u8 USART_indexGetter(void* ID)
 	switch((u32)ID)
 	{
 	case (u32)USART_ID_USART1:
-		return USART1_NOTIFY_INDEX;
+			return USART1_NOTIFY_INDEX;
 	case (u32)USART_ID_USART2:
-		return USART2_NOTIFY_INDEX;
+			return USART2_NOTIFY_INDEX;
 	case (u32)USART_ID_USART3:
-		return USART3_NOTIFY_INDEX;
+			return USART3_NOTIFY_INDEX;
 	case (u32)USART_ID_UART4:
-		return UART4_NOTIFY_INDEX;
+			return UART4_NOTIFY_INDEX;
 	case (u32)USART_ID_UART5:
-		return UART5_NOTIFY_INDEX;
+			return UART5_NOTIFY_INDEX;
 	}
 	return 0;
 }
