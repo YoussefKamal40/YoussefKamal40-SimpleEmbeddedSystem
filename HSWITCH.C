@@ -6,9 +6,9 @@
  */
 
 #include "STD_TYPES_H.h"
-#include "GPIO_Interface.h"
-#include "HSWITCH_config.h"
 #include "HSWITCH_interface.h"
+#include "HSWITCH_config.h"
+#include "GPIO_Interface.h"
 
 u8 state_global[NO_SWITCHES];
 GPIO_pinType GPIOs[NO_SWITCHES];
@@ -17,7 +17,7 @@ extern switch_type switches[NO_SWITCHES];
 
 u8 HSWITCH_getState(u8 switch_index)
 {	u8 state;
-	if((switches[switch_index].mode == MODE_PULL_UP_ACTIVE_LOW)||(switches[switch_index].mode == MODE_INPUT_FLAOTING_ACTIVE_LOW ))
+	if((switches[switch_index].active_state == ACTIVE_LOW))
 	{
 		 state = 1^state_global[switch_index];
 	}
@@ -35,14 +35,7 @@ void HSWITCH_init(void)
 	{
 		GPIOs[index].pin = switches[index].pin;
 		GPIOs[index].port = switches[index].port;
-		if(switches[index].mode == MODE_INPUT_FLAOTING_ACTIVE_HIGH)
-		{
-			GPIOs[index].mode = GPIO_INPUT_FLOAT_MODE;
-		}
-		else
-		{
-			GPIOs[index].mode = switches[index].mode;
-		}
+		GPIOs[index].mode = switches[index].mode;
 		GPIOs[index].speed=GPIO_10M_SPEED;
 		GPIO_configPins(&GPIOs[index]);
 	}
@@ -69,7 +62,7 @@ void HSWITCH_debounce_runnable(void)
 			counter[index]=0;
 		}
 
-		if(counter[index] == TIMEOUT)
+		if(counter[index] == DEBOUNCE_TIMEOUT)
 		{
 		state_global[index] = current_state;
 		counter[index] = 0;
