@@ -8,14 +8,23 @@
 #ifndef HSWITCH_INTERFACE_H_
 #define HSWITCH_INTERFACE_H_
 
+#pragma pack(4)
+typedef struct {
+	u32 mode;
+	u32	active_state;
+	void* port;
+	u16 pin;
+}switch_type;
 
 #define	NOT_PRESSED_STATE ((u8)0)
 #define	PRESSED_STATE ((u8)1)
 
-#define MODE_PULL_UP_ACTIVE_LOW			((u32)0b10000)
-#define MODE_PULL_DOWN_ACTOVE_HIGH		((u32)0b10001)
-#define MODE_INPUT_FLAOTING_ACTIVE_LOW 	((u32)0b01000)
-#define MODE_INPUT_FLAOTING_ACTIVE_HIGH	((u32)0b01001)
+#define MODE_OUTPUT_PULL_UP		((u32)0b10000)
+#define MODE_OUTPUT_PULL_DOWN	((u32)0b10001)
+#define MODE_INPUT_FLAOTING	((u32)0b01000)
+
+#define ACTIVE_HIGH		1
+#define ACTIVE_LOW		0
 
 #define PIN0	GPIO_PIN_0
 #define PIN1	GPIO_PIN_1
@@ -41,12 +50,6 @@
 #define PORTE    GPIO_E_PORT
 #define PORTF    GPIO_F_PORT
 #define PORTG    GPIO_G_PORT
-
-typedef struct {
-    u32 mode;
-    u16 pin;
-    void* port;
-}switch_type;
 
 void HSWITCH_debounce_runnable(void);
 void HSWITCH_init(void);
