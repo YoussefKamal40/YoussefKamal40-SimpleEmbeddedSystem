@@ -6,8 +6,10 @@
  */
 
 #include "STD_TYPES_H.h"
+#include "GPIO_Interface.h"
 #include "HSWITCH_config.h"
 #include "HSWITCH_interface.h"
+
 
 switch_type switches[NO_SWITCHES]={
 		{

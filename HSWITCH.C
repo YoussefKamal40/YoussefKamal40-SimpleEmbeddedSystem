@@ -6,9 +6,9 @@
  */
 
 #include "STD_TYPES_H.h"
-#include "HSWITCH_interface.h"
-#include "HSWITCH_config.h"
 #include "GPIO_Interface.h"
+#include "HSWITCH_config.h"
+#include "HSWITCH_interface.h"
 
 u8 state_global[NO_SWITCHES];
 GPIO_pinType GPIOs[NO_SWITCHES];

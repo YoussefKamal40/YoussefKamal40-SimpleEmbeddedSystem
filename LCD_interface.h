@@ -8,12 +8,6 @@
 #ifndef LCD_INTERFACE_H_
 #define LCD_INTERFACE_H_
 
-typedef u8 Status_t ;
-void LCD_init(void);
-void LCD_runnable(void);
-Status_t LCD_moveXY(u8 x, u8 y);
-Status_t LCD_writeString(const u8 * word, u8 length);
-Status_t lcd_applyCommand(u8 cmd);
 
 #define ONE_LINE	0
 #define	TWO_LINES	1
@@ -71,5 +65,14 @@ Status_t lcd_applyCommand(u8 cmd);
 
 #define STATUS_OK		0
 #define STATUS_BUSY		1
+
+typedef u8 Status_t ;
+
+void LCD_init(void);
+void LCD_runnable(void);
+
+Status_t LCD_moveXY(u8 x, u8 y);
+Status_t LCD_writeString(const u8 * word, u8 length);
+Status_t lcd_applyCommand(u8 cmd);
 
 #endif /* LCD_INTERFACE_H_ */

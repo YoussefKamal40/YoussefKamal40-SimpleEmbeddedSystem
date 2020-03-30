@@ -9,6 +9,6 @@
 #define HSWITCH_CONFIG_H_
 
 #define NO_SWITCHES 	3
-#define TIMEOUT		5
+#define DEBOUNCE_TIMEOUT		5
 
 #endif /* HSWITCH_CONFIG_H_ */

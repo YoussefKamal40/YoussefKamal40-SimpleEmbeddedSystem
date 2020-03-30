@@ -8,11 +8,7 @@
 #ifndef HSWITCH_INTERFACE_H_
 #define HSWITCH_INTERFACE_H_
 
-typedef struct {
-	u32 mode;
-	u16 pin;
-	void* port;
-}switch_type;
+
 
 #define	NOT_PRESSED_STATE ((u8)0)
 #define	PRESSED_STATE ((u8)1)
