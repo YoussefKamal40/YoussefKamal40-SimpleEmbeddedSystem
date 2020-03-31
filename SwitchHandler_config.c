@@ -1,14 +1,14 @@
 /*
- * HSWITCH_config.c
+ * SwitchHandler_config.c
  *
- *  Created on: Mar 25, 2020
+ *  Created on: Mar 30, 2020
  *      Author: LENOVO.SXM1
  */
 
 #include "STD_TYPES_H.h"
 #include "GPIO_Interface.h"
-#include "HSWITCH_interface.h"
-#include "HSWITCH_config.h"
+#include "SwitchHandler_interface.h"
+#include "SwitchHandler_config.h"
 
 switch_type switches[NO_SWITCHES]={
 		{
@@ -30,3 +30,7 @@ switch_type switches[NO_SWITCHES]={
 				PIN0
 		}
 	};
+
+
+
+
