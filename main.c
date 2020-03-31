@@ -1,5 +1,6 @@
 #include "STD_TYPES_H.h"
 #include "RCC_interface.h"
+<<<<<<< HEAD
 #include "systemClockHandler_interface.h"
 #include "ChipUSARTHandler_interface.h"
 
@@ -40,6 +41,18 @@ void main(void)
 			error|=ChipUSARTHandler_receiveBacket(0,dataReceiveBuffer,20,receiveNotify);
 		}
 	}
+=======
+#include "HSWITCH_interface.h"
+
+void main(void)
+{
+	RCC_u8_ControlPrephiral(RCC_u32_GIOPA_PERIP,ENABLE);
+	HSWITCH_init();
+  while (1)
+    {
+       // Add your code here.
+    }
+>>>>>>> parent of b5eae28... update switch and LCD
 }
 
 static void receiveNotify(void)
