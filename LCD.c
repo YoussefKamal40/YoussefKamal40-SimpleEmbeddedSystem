@@ -67,12 +67,17 @@ static process_t currentProcess ;
 
 static u8 function_set=S2_VAR;
 <<<<<<< HEAD
+<<<<<<< HEAD
 static u8 display_control=S3_VAR;
 static u8 entry_mode=S5_VAR;
 =======
 
 static process_t currentProcess ;
 >>>>>>> parent of b5eae28... update switch and LCD
+=======
+static u8 function_set=S2_VAR;
+
+>>>>>>> parent of c0d3ef9... add curser function
 =======
 static u8 function_set=S2_VAR;
 
