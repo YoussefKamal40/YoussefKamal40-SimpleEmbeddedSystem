@@ -1,6 +1,5 @@
 #include "STD_TYPES_H.h"
 #include "RCC_interface.h"
-<<<<<<< HEAD
 #include "systemClockHandler_interface.h"
 #include "ChipUSARTHandler_interface.h"
 
@@ -24,8 +23,8 @@ void main(void)
 	error|=RCC_u8_ControlPrephiral(RCC_u32_CONTROL_PERIP_IOPAEN,RCC_u8_ENABLE);
 	error|=RCC_u8_ControlPrephiral(RCC_u32_CONTROL_PERIP_IOPBEN,RCC_u8_ENABLE);
 	ChipUSARTHandler_Init();
-	error|=ChipUSARTHandler_sendBacket(0,dataSendBuffer,6,sendNotify);
-	error|=ChipUSARTHandler_receiveBacket(0,dataReceiveBuffer,20,receiveNotify);
+	error|=ChipUSARTHandler_sendBacket(1,dataSendBuffer,6,sendNotify);
+	error|=ChipUSARTHandler_receiveBacket(1,dataReceiveBuffer,20,receiveNotify);
 	while (1)
 	{
 		if(dataReceived)
@@ -37,22 +36,10 @@ void main(void)
 				dataSendBuffer[i]=dataReceiveBuffer[i];
 			}
 			dataSent=0;
-			error|=ChipUSARTHandler_sendBacket(0,dataSendBuffer,20,sendNotify);
-			error|=ChipUSARTHandler_receiveBacket(0,dataReceiveBuffer,20,receiveNotify);
+			error|=ChipUSARTHandler_sendBacket(1,dataSendBuffer,20,sendNotify);
+			error|=ChipUSARTHandler_receiveBacket(1,dataReceiveBuffer,20,receiveNotify);
 		}
 	}
-=======
-#include "HSWITCH_interface.h"
-
-void main(void)
-{
-	RCC_u8_ControlPrephiral(RCC_u32_GIOPA_PERIP,ENABLE);
-	HSWITCH_init();
-  while (1)
-    {
-       // Add your code here.
-    }
->>>>>>> parent of b5eae28... update switch and LCD
 }
 
 static void receiveNotify(void)

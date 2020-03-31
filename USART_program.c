@@ -5,11 +5,11 @@
 #include "USART_registers.h"
 #include "USART_config.h"
 
-#define USART1_NOTIFY_INDEX	0
-#define USART2_NOTIFY_INDEX	1
-#define USART3_NOTIFY_INDEX	2
-#define UART4_NOTIFY_INDEX	3
-#define UART5_NOTIFY_INDEX	4
+#define USART1_INDEX	0
+#define USART2_INDEX	1
+#define USART3_INDEX	2
+#define UART4_INDEX	3
+#define UART5_INDEX	4
 
 #define USART1_INT_NUM	((u8)37)
 #define USART2_INT_NUM	((u8)38)
@@ -355,15 +355,15 @@ static u8 USART_indexGetter(void* ID)
 	switch((u32)ID)
 	{
 	case (u32)USART_ID_USART1:
-			return USART1_NOTIFY_INDEX;
+			return USART1_INDEX;
 	case (u32)USART_ID_USART2:
-			return USART2_NOTIFY_INDEX;
+			return USART2_INDEX;
 	case (u32)USART_ID_USART3:
-			return USART3_NOTIFY_INDEX;
+			return USART3_INDEX;
 	case (u32)USART_ID_UART4:
-			return UART4_NOTIFY_INDEX;
+			return UART4_INDEX;
 	case (u32)USART_ID_UART5:
-			return UART5_NOTIFY_INDEX;
+			return UART5_INDEX;
 	}
 	return 0;
 }

@@ -235,7 +235,7 @@ SYS_error SYS_HAN_setAHBClock(u32 clock)
 		}
 		if(prescaler<=NUMBER_OF_AHB_PRESCALERS&&(!error))
 		{
-			error|=RCC_u8_SelectBusPrescaler(RCC_u32_APB1_BUS,AHBprescalers[prescaler-1]);
+			error|=RCC_u8_SelectBusPrescaler(RCC_u32_APB1_BUS,AHBprescalers[prescalerIndex]);
 		}
 		else
 		{
@@ -264,9 +264,9 @@ SYS_error SYS_HAN_setAPB1Clock(u32 clock)
 	u32 prescaler;
 	u8 prescalerIndex=0;
 
-	if(clock<=sysClock&&clock<=SYS_HAN_MAX_APB1_CLOCK&&!(sysClock%clock)&&clock)
+	if(clock<=AHBClock&&clock<=SYS_HAN_MAX_APB1_CLOCK&&!(AHBClock%clock)&&clock)
 	{
-		prescaler=sysClock/clock;
+		prescaler=AHBClock/clock;
 		while(prescaler>1)
 		{
 			if(prescaler%2)
@@ -279,7 +279,7 @@ SYS_error SYS_HAN_setAPB1Clock(u32 clock)
 		}
 		if(prescaler<=NUMBER_OF_APB1_PRESCALERS&&(!error))
 		{
-			error|=RCC_u8_SelectBusPrescaler(RCC_u32_APB1_BUS,APB1prescalers[prescaler-1]);
+			error|=RCC_u8_SelectBusPrescaler(RCC_u32_APB1_BUS,APB1prescalers[prescalerIndex]);
 		}
 		else
 		{
@@ -308,9 +308,9 @@ SYS_error SYS_HAN_setAPB2Clock(u32 clock)
 	u32 prescaler;
 	u8 prescalerIndex=0;
 
-	if(clock<=sysClock&&clock<=SYS_HAN_MAX_APB2_CLOCK&&!(sysClock%clock)&&clock)
+	if(clock<=AHBClock&&clock<=SYS_HAN_MAX_APB2_CLOCK&&!(AHBClock%clock)&&clock)
 	{
-		prescaler=sysClock/clock;
+		prescaler=AHBClock/clock;
 		while(prescaler>1)
 		{
 			if(prescaler%2)
@@ -323,7 +323,7 @@ SYS_error SYS_HAN_setAPB2Clock(u32 clock)
 		}
 		if(prescaler<=NUMBER_OF_APB2_PRESCALERS&&(!error))
 		{
-			error|=RCC_u8_SelectBusPrescaler(RCC_u32_APB1_BUS,APB2prescalers[prescaler-1]);
+			error|=RCC_u8_SelectBusPrescaler(RCC_u32_APB2_BUS,APB2prescalers[prescalerIndex]);
 		}
 		else
 		{
