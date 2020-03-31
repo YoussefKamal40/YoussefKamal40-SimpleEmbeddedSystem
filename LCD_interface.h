@@ -36,14 +36,14 @@
 #define SPEED_2M	GPIO_2M_SPEED
 #define	SPEED_50M	GPIO_50M_SPEED
 
-#define FIRST_LINE		0
-#define SECOND_LINE		1
-
 /*commands*/
+<<<<<<< HEAD
 #define CMD_CLEAR_SCREEN ((u8)0b00000001)
 #define CMD_RETURN_HOME ((u8)0b00000010)
 #define CMD_BLINKING_ON ((u8)0b00000010)
 
+=======
+>>>>>>> parent of b5eae28... update switch and LCD
 
 #define PIN_0 	GPIO_PIN_0
 #define PIN_1 	GPIO_PIN_1

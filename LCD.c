@@ -39,14 +39,6 @@
 #define DB1	1
 #define DB0	0
 
-#define Conc(b7,b6,b5,b4,b3,b2,b1,b0)				Conc_Helper(b7,b6,b5,b4,b3,b2,b1,b0)
-#define Conc_Helper(b7,b6,b5,b4,b3,b2,b1,b0)		0b##b7##b6##b5##b4##b3##b2##b1##b0
-
-#define S2_VAR ((u8)Conc(0,0,1,1,NUMBER_OF_LINES,FONT,0,0))
-#define S3_VAR	((u8)Conc(0,0,0,0,1,DATA_LENGTH,CURSER,BLINKING))
-#define S4_VAR	((u8)Conc(0,0,0,0,0,0,0,1))
-#define S5_VAR	((u8)Conc(0,0,0,0,0,1,INC_MODE,DISPLAY_SHIFT_OPERATION))
-
 
 typedef enum {
 s1 ,
@@ -68,20 +60,25 @@ static u8 userWord[255] ;
 static u8 userWordLen;
 static u8 userCommand;
 static u8 initCompleteFlag = INIT_NOT_COMPLETED;
+<<<<<<< HEAD
 static process_t currentProcess ;
 
 static u8 function_set=S2_VAR;
 static u8 display_control=S3_VAR;
 static u8 entry_mode=S5_VAR;
+=======
+
+static process_t currentProcess ;
+>>>>>>> parent of b5eae28... update switch and LCD
 
 static initState_t currentInitState;
-static GPIO_pinType lcd_control_pins[NO_CONTROL_PINS]={
+GPIO_pinType lcd_control_pins[NO_CONTROL_PINS]={
 	{GPIO_GPOUT_PP_MODE,PINS_SPEED,LCD_RS_PORT,LCD_RS_PIN,ZERO_VALUE}
 	,{GPIO_GPOUT_PP_MODE,PINS_SPEED,LCD_RW_PORT,LCD_RW_PIN,ZERO_VALUE}
 	,{GPIO_GPOUT_PP_MODE,PINS_SPEED,LCD_E_PORT,LCD_E_PIN,ZERO_VALUE}
 };
 
-static GPIO_pinType lcd_data_pins[NO_DATA_PINS]={
+GPIO_pinType lcd_data_pins[NO_DATA_PINS]={
 	{GPIO_GPOUT_PP_MODE,PINS_SPEED, LCD_D0_PIN,LCD_D0_PORT,ZERO_VALUE}
 	,{GPIO_GPOUT_PP_MODE,PINS_SPEED,LCD_D1_PIN,LCD_D1_PORT,ZERO_VALUE}
 	,{GPIO_GPOUT_PP_MODE,PINS_SPEED,LCD_D2_PIN,LCD_D2_PORT,ZERO_VALUE}
@@ -207,7 +204,6 @@ void LCD_runnable(void)
 static void LCD_8bitInitProcess(void)
 {
 	static u8 counter = 0;
-	u8 index;
 	switch (currentInitState)
 	{
 	case s1:
@@ -223,12 +219,22 @@ static void LCD_8bitInitProcess(void)
 		GPIO_setPinValue(&lcd_control_pins[RS]);
 		lcd_control_pins[RW].value = ZERO_VALUE;
 		GPIO_setPinValue(&lcd_control_pins[RW]);
-
-		for(counter =0; counter<NO_DATA_PINS; counter++)
-		{
-			lcd_data_pins[index].value = (GETBIT & (S2_VAR >> index));
-			GPIO_setPinValue(&lcd_data_pins[index]);
-		}
+		lcd_control_pins[DB7].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB7]);
+		lcd_control_pins[DB6].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB6]);
+		lcd_control_pins[DB5].value = ONE_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB5]);
+		lcd_control_pins[DB4].value = ONE_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB4]);
+		lcd_control_pins[DB3].value = NUMBER_OF_LINES;
+		GPIO_setPinValue(&lcd_control_pins[DB3]);
+		lcd_control_pins[DB2].value = FONT;
+		GPIO_setPinValue(&lcd_control_pins[DB2]);
+		lcd_control_pins[DB1].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB1]);
+		lcd_control_pins[DB0].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB0]);
 
 		currentInitState = s3;
 		break;
@@ -237,11 +243,23 @@ static void LCD_8bitInitProcess(void)
 		GPIO_setPinValue(&lcd_control_pins[RS]);
 		lcd_control_pins[RW].value = ZERO_VALUE;
 		GPIO_setPinValue(&lcd_control_pins[RW]);
-		for(counter =0; counter<NO_DATA_PINS; counter++)
-		{
-			lcd_data_pins[index].value = (GETBIT & (S3_VAR >> index));
-			GPIO_setPinValue(&lcd_data_pins[index]);
-		}
+		lcd_control_pins[DB7].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB7]);
+		lcd_control_pins[DB6].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB6]);
+		lcd_control_pins[DB5].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB5]);
+		lcd_control_pins[DB4].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB4]);
+		lcd_control_pins[DB3].value = ONE_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB3]);
+		lcd_control_pins[DB2].value = DISPLAY;
+		GPIO_setPinValue(&lcd_control_pins[DB2]);
+		lcd_control_pins[DB1].value = CURSER;
+		GPIO_setPinValue(&lcd_control_pins[DB1]);
+		lcd_control_pins[DB0].value = BLINKING;
+		GPIO_setPinValue(&lcd_control_pins[DB0]);
+
 		currentInitState = s4;
 		break;
 	case s4:
@@ -249,13 +267,22 @@ static void LCD_8bitInitProcess(void)
 		GPIO_setPinValue(&lcd_control_pins[RS]);
 		lcd_control_pins[RW].value = ZERO_VALUE;
 		GPIO_setPinValue(&lcd_control_pins[RW]);
-
-		for(counter =0; counter<NO_DATA_PINS; counter++)
-		{
-			lcd_data_pins[index].value = (GETBIT & (S4_VAR >> index));
-			GPIO_setPinValue(&lcd_data_pins[index]);
-		}
-
+		lcd_control_pins[DB7].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB7]);
+		lcd_control_pins[DB6].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB6]);
+		lcd_control_pins[DB5].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB5]);
+		lcd_control_pins[DB4].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB4]);
+		lcd_control_pins[DB3].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB3]);
+		lcd_control_pins[DB2].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB2]);
+		lcd_control_pins[DB1].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB1]);
+		lcd_control_pins[DB0].value = ONE_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB0]);
 
 		currentInitState = s5;
 		break;
@@ -264,13 +291,22 @@ static void LCD_8bitInitProcess(void)
 		GPIO_setPinValue(&lcd_control_pins[RS]);
 		lcd_control_pins[RW].value = ZERO_VALUE;
 		GPIO_setPinValue(&lcd_control_pins[RW]);
-
-
-		for(counter =0; counter<NO_DATA_PINS; counter++)
-		{
-			lcd_data_pins[index].value = (GETBIT & (S5_VAR >> index));
-			GPIO_setPinValue(&lcd_data_pins[index]);
-		}
+		lcd_control_pins[DB7].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB7]);
+		lcd_control_pins[DB6].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB6]);
+		lcd_control_pins[DB5].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB5]);
+		lcd_control_pins[DB4].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB4]);
+		lcd_control_pins[DB3].value = ZERO_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB3]);
+		lcd_control_pins[DB2].value = ONE_VALUE;
+		GPIO_setPinValue(&lcd_control_pins[DB2]);
+		lcd_control_pins[DB1].value = INC_MODE;
+		GPIO_setPinValue(&lcd_control_pins[DB1]);
+		lcd_control_pins[DB0].value = DISPLAY_SHIFT_OPERATION;
+		GPIO_setPinValue(&lcd_control_pins[DB0]);
 
 		initCompleteFlag = INIT_COMPLETED;
 	}
@@ -279,7 +315,6 @@ static void LCD_8bitInitProcess(void)
 
 static void LCD_8bitCMDProcess(void)
 {
-	u8 index;
 
 	if (lcd_control_pins[E].value) {
 		lcd_control_pins[E].value = ZERO_VALUE;
@@ -291,11 +326,29 @@ static void LCD_8bitCMDProcess(void)
 		lcd_control_pins[RW].value = ZERO_VALUE;
 		GPIO_setPinValue(&lcd_control_pins[RW]);
 
-		for(index =0; index<NO_DATA_PINS; index++)
-		{
-			lcd_data_pins[index].value = (GETBIT & (userCommand >> index));
-			GPIO_setPinValue(&lcd_control_pins[index]);
-		}
+		lcd_control_pins[DB7].value = (GETBIT & (userCommand >> DB7));
+		GPIO_setPinValue(&lcd_control_pins[DB7]);
+
+		lcd_control_pins[DB6].value = (GETBIT & (userCommand >> DB6));
+		GPIO_setPinValue(&lcd_control_pins[DB6]);
+
+		lcd_control_pins[DB5].value = (GETBIT & (userCommand >> DB5));
+		GPIO_setPinValue(&lcd_control_pins[DB5]);
+
+		lcd_control_pins[DB4].value = (GETBIT & (userCommand >> DB4));
+		GPIO_setPinValue(&lcd_control_pins[DB4]);
+
+		lcd_control_pins[DB3].value = (GETBIT & (userCommand >> DB3));
+		GPIO_setPinValue(&lcd_control_pins[DB3]);
+
+		lcd_control_pins[DB2].value = (GETBIT & (userCommand >> DB2));
+		GPIO_setPinValue(&lcd_control_pins[DB2]);
+
+		lcd_control_pins[DB1].value = (GETBIT & (userCommand >> DB1));
+		GPIO_setPinValue(&lcd_control_pins[DB1]);
+
+		lcd_control_pins[DB0].value = (GETBIT & (userCommand >> DB0));
+		GPIO_setPinValue(&lcd_control_pins[DB0]);
 
 		lcd_control_pins[E].value = ONE_VALUE;
 		GPIO_setPinValue(&lcd_control_pins[E]);
@@ -305,7 +358,6 @@ static void LCD_8bitCMDProcess(void)
 static void LCD_8bitWriteProcess(void) {
 
 	static u8 currentChar = 0;
-	u8 index;
 
 	if (lcd_control_pins[E].value) {
 		lcd_control_pins[E].value = ZERO_VALUE;
@@ -322,13 +374,29 @@ static void LCD_8bitWriteProcess(void) {
 		lcd_control_pins[RW].value = ZERO_VALUE;
 		GPIO_setPinValue(&lcd_control_pins[RW]);
 
-		for(index =0; index<NO_DATA_PINS; index++)
-		{
-			lcd_data_pins[index].value = (GETBIT & (userWord[currentChar] >> index));
-			GPIO_setPinValue(&lcd_control_pins[index]);
-		}
+		lcd_control_pins[DB7].value = (GETBIT & (userWord[currentChar] >> DB7));
+		GPIO_setPinValue(&lcd_control_pins[DB7]);
 
+		lcd_control_pins[DB6].value = (GETBIT & (userWord[currentChar] >> DB6));
+		GPIO_setPinValue(&lcd_control_pins[DB6]);
 
+		lcd_control_pins[DB5].value = (GETBIT & (userWord[currentChar] >> DB5));
+		GPIO_setPinValue(&lcd_control_pins[DB5]);
+
+		lcd_control_pins[DB4].value = (GETBIT & (userWord[currentChar] >> DB4));
+		GPIO_setPinValue(&lcd_control_pins[DB4]);
+
+		lcd_control_pins[DB3].value = (GETBIT & (userWord[currentChar] >> DB3));
+		GPIO_setPinValue(&lcd_control_pins[DB3]);
+
+		lcd_control_pins[DB2].value = (GETBIT & (userWord[currentChar] >> DB2));
+		GPIO_setPinValue(&lcd_control_pins[DB2]);
+
+		lcd_control_pins[DB1].value = (GETBIT & (userWord[currentChar] >> DB1));
+		GPIO_setPinValue(&lcd_control_pins[DB1]);
+
+		lcd_control_pins[DB0].value = (GETBIT & (userWord[currentChar] >> DB0));
+		GPIO_setPinValue(&lcd_control_pins[DB0]);
 
 		lcd_control_pins[E].value = ONE_VALUE;
 		GPIO_setPinValue(&lcd_control_pins[E]);
