@@ -45,6 +45,8 @@
 =======
 >>>>>>> parent of b5eae28... update switch and LCD
 
+
+
 #define PIN_0 	GPIO_PIN_0
 #define PIN_1 	GPIO_PIN_1
 #define PIN_2 	GPIO_PIN_2
@@ -73,10 +75,7 @@
 #define STATUS_OK		0
 #define STATUS_BUSY		1
 
-#define CURSER_ENABLE	((u8)2)
-#define CURSER_ENABLE	((u8)0)
-
-typedef u8 Status_t;
+typedef u8 Status_t ;
 
 void LCD_init(void);
 void LCD_runnable(void);
@@ -84,5 +83,5 @@ void LCD_runnable(void);
 Status_t LCD_moveXY(u8 x, u8 y);
 Status_t LCD_writeString(const u8 * word, u8 length);
 Status_t lcd_applyCommand(u8 cmd);
-Status_t LCD_curserConterol(u8 cursermode);
+
 #endif /* LCD_INTERFACE_H_ */

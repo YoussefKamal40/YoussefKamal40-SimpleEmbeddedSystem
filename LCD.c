@@ -25,9 +25,8 @@
 
 #define GETBIT	1
 
-#define CURSER_CLEAR	((u8)0b11111101)
-#define DDRAM_ADDRESS 	((u8)0x80)
-#define LINE_TWO_ADDRESS_OFFSET	((u8)0x40)
+
+#define MOVE_CURSER_CMD		14
 #define DELAY_tick	6
 
 #define DB7	7
@@ -59,17 +58,25 @@ cmd_proc,
 static u8 userWord[255] ;
 static u8 userWordLen;
 static u8 userCommand;
+//static u8 isWriteReq;
+static u8 userXposition;
+static u8 userYposition;
 static u8 initCompleteFlag = INIT_NOT_COMPLETED;
 <<<<<<< HEAD
 static process_t currentProcess ;
 
 static u8 function_set=S2_VAR;
+<<<<<<< HEAD
 static u8 display_control=S3_VAR;
 static u8 entry_mode=S5_VAR;
 =======
 
 static process_t currentProcess ;
 >>>>>>> parent of b5eae28... update switch and LCD
+=======
+static u8 function_set=S2_VAR;
+
+>>>>>>> parent of c0d3ef9... add curser function
 
 static initState_t currentInitState;
 GPIO_pinType lcd_control_pins[NO_CONTROL_PINS]={
@@ -141,41 +148,30 @@ status = STATUS_BUSY;
 }
 return status;
 }
-
-Status_t LCD_curserConterol(u8 cursermode)
+/*
+case CLCD_U8_LINE_ONE:
+CLCD_voidWriteCmd(CLCD_U8_DDRAM_ADDRESS+Copy_u8XPos);
+	break;
+case CLCD_U8_LINE_TWO:
+CLCD_voidWriteCmd(CLCD_U8_DDRAM_ADDRESS+CLCD_U8_LINE_TWO_ADDRESS_OFFSET+Copy_u8XPos);
+*/
+/*
+Status_t LCD_moveXY(u8 x, u8 y)
 {
-	Status_t status;
-	u8 tempcmd;
-	if (currentProcess == idle_proc){
+Status_t status;
+if(currentProcess == idle_proc){
+userXposition = x;
+userYposition = y;
 
-		function_set &=CURSER_CLEAR;
-		function_set |=cursermode;
-		userCommand =function_set;
-	currentProcess = cmd_proc;
-	status = STATUS_OK;
-	} else {
-		status = STATUS_BUSY;
-	}
-	return status;
+userCommand =	MOVE_CURSER_CMD;
+currentProcess = cmd_proc;
+status = STATUS_OK;
+}else{
+status = STATUS_BUSY;
 }
-
-Status_t LCD_moveXY(u8 x, u8 y) {
-	Status_t status;
-	if (currentProcess == idle_proc) {
-
-		if (y == SECOND_LINE) {
-			userCommand = DDRAM_ADDRESS + LINE_TWO_ADDRESS_OFFSET + x;
-		} else {
-			userCommand = DDRAM_ADDRESS + x;
-		}
-		currentProcess = cmd_proc;
-		status = STATUS_OK;
-	} else {
-		status = STATUS_BUSY;
-	}
-	return status;
+return status;
 }
-
+*/
 
 void LCD_runnable(void)
 {
