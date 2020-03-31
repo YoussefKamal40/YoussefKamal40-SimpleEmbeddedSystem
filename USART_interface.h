@@ -32,9 +32,9 @@ typedef void (*handlerNotifyType)(void);
 #pragma pack(4)
 typedef struct USART_Type
 {
+	void* ID;
 	u32 stopBit;
 	f32 baudRate;
-	void* ID;
 	u8 parity;
 }USARTConfig_Type;
 
