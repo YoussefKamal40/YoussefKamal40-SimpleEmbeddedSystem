@@ -1,12 +1,14 @@
 /*
- * HSWITCH_interface.h
+ * SwitchHandler_interface.h
  *
- *  Created on: Mar 25, 2020
+ *  Created on: Mar 30, 2020
  *      Author: LENOVO.SXM1
  */
 
-#ifndef HSWITCH_INTERFACE_H_
-#define HSWITCH_INTERFACE_H_
+#ifndef SWITCHHANDLER_INTERFACE_H_
+#define SWITCHHANDLER_INTERFACE_H_
+
+
 
 #pragma pack(4)
 typedef struct {
@@ -55,4 +57,6 @@ void HSWITCH_debounce_runnable(void);
 void HSWITCH_init(void);
 u8 HSWITCH_getState(u8 switch_index);
 
-#endif /* HSWITCH_INTERFACE_H_ */
+
+
+#endif /* SWITCHHANDLER_INTERFACE_H_ */

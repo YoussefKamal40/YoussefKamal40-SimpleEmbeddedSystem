@@ -6,8 +6,8 @@
  */
 
 #include "STD_TYPES_H.h"
-#include "HSWITCH_interface.h"
-#include "HSWITCH_config.h"
+#include "SwitchHandler_interface.h"
+#include "SwitchHandler_config.h"
 #include "GPIO_Interface.h"
 
 u8 state_global[NO_SWITCHES];

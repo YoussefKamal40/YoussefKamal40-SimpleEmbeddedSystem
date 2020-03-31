@@ -52,3 +52,5 @@ Mkfile.old
 dkms.conf
 HSWITCH_config.c
 RCC_program.c
+LCD.c
+LCD_interface.h

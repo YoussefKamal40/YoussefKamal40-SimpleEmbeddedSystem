@@ -36,17 +36,13 @@
 #define SPEED_2M	GPIO_2M_SPEED
 #define	SPEED_50M	GPIO_50M_SPEED
 
+#define FIRST_LINE		0
+#define SECOND_LINE		1
+
 /*commands*/
-<<<<<<< HEAD
 #define CMD_CLEAR_SCREEN ((u8)0b00000001)
 #define CMD_RETURN_HOME ((u8)0b00000010)
 #define CMD_BLINKING_ON ((u8)0b00000010)
-
-=======
->>>>>>> parent of b5eae28... update switch and LCD
-
-
-
 
 
 #define PIN_0 	GPIO_PIN_0
@@ -77,7 +73,10 @@
 #define STATUS_OK		0
 #define STATUS_BUSY		1
 
-typedef u8 Status_t ;
+#define CURSER_ENABLE	((u8)2)
+#define CURSER_ENABLE	((u8)0)
+
+typedef u8 Status_t;
 
 void LCD_init(void);
 void LCD_runnable(void);
@@ -85,5 +84,5 @@ void LCD_runnable(void);
 Status_t LCD_moveXY(u8 x, u8 y);
 Status_t LCD_writeString(const u8 * word, u8 length);
 Status_t lcd_applyCommand(u8 cmd);
-
+Status_t LCD_curserConterol(u8 cursermode);
 #endif /* LCD_INTERFACE_H_ */
