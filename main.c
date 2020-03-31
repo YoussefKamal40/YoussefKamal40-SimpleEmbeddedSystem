@@ -21,6 +21,7 @@ void main(void)
 	error|=SYS_HAN_setAPB1Clock(SYS_HAN_CLOCK_36MHz);
 	error|=SYS_HAN_setAPB2Clock(SYS_HAN_CLOCK_72MHz);
 	error|=RCC_u8_ControlPrephiral(RCC_u32_CONTROL_PERIP_IOPAEN,RCC_u8_ENABLE);
+	error|=RCC_u8_ControlPrephiral(RCC_u32_CONTROL_PERIP_IOPBEN,RCC_u8_ENABLE);
 	ChipUSARTHandler_Init();
 	error|=ChipUSARTHandler_sendBacket(0,dataSendBuffer,6,sendNotify);
 	error|=ChipUSARTHandler_receiveBacket(0,dataReceiveBuffer,20,receiveNotify);
