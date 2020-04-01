@@ -5,6 +5,7 @@
  *      Author: Esraa
  */
 #include "stdint.h"
+#include "systemClockHandler_interface.h"
 #include"Schedular_config.h"
 #include "Schedular_interface.h"
 #include "SysTick.h"
@@ -12,11 +13,11 @@
 #define STATE_RUNNING     1
 #define STATE_SUSPENDED   0
 
-extern  taskConfig_t *sysTaskConfig[NUMBER_OF_TASKS];
+extern  taskConfig_t sysTaskConfig[NUMBER_OF_TASKS];
 
 typedef struct
 {
-	taskConfig_t *taskConfig;
+	const taskConfig_t *taskConfig;
 	uint32_t periodicityinTicks;
 	uint32_t ticksToExecute;
 	uint32_t state;
@@ -36,17 +37,18 @@ void Sched_setOsFlag (void)
 
 void Sched_init(void)
 {
-
+    uint32_t input_clock;
 	for(iterator=0; iterator< NUMBER_OF_TASKS ; iterator++)
 	{
-		sysTask[iterator].taskConfig = sysTaskConfig[iterator];
-		sysTask[iterator].periodicityinTicks = sysTaskConfig[iterator]->periodicity_us /TICK_TIME_US;
-		sysTask[iterator].ticksToExecute = sysTaskConfig[iterator]->firstDelayInTick;
+		sysTask[iterator].taskConfig = &sysTaskConfig[iterator];
+		sysTask[iterator].periodicityinTicks = sysTaskConfig[iterator].periodicity_us /TICK_TIME_US;
+		sysTask[iterator].ticksToExecute = sysTaskConfig[iterator].firstDelayInTick;
 		sysTask[iterator].state = STATE_RUNNING;
 	}
 	SysTick_init();
 	SysTick_setCallBack(Sched_setOsFlag);
-	SysTick_setTime(TICK_TIME_US,INPUT_CLOCK);
+	input_clock = SYS_HAN_getAHBClock();
+	SysTick_setTime(TICK_TIME_US,input_clock);
 }
 
 void Sched(void)
@@ -55,7 +57,7 @@ void Sched(void)
 	{
 		if(sysTask[iterator].ticksToExecute== 0 && sysTask[iterator].state==STATE_RUNNING)
 		{
-			sysTask[iterator].taskConfig -> taskRunnable() ;
+			sysTask[iterator].taskConfig->taskRunnable() ;
 			sysTask[iterator].ticksToExecute = sysTask[iterator].periodicityinTicks;
 		}
 		sysTask[iterator].ticksToExecute --;

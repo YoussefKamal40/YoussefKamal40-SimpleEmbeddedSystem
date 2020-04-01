@@ -8,13 +8,14 @@
 #include "Schedular_interface.h"
 #include "Schedular_config.h"
 
+//extern void func (void);
+//extern void func2 (void);
 
-
-
-extern taskConfig_t Esraa_task;
-extern taskConfig_t soso_task;
-
-const taskConfig_t *sysTaskConfig[NUMBER_OF_TASKS]={&Esraa_task,&soso_task};
+const taskConfig_t sysTaskConfig[NUMBER_OF_TASKS]=
+{
+	//{.taskRunnable=&func,.periodicity_us=5000,.firstDelayInTick=5},
+	//{.taskRunnable=&func2,.periodicity_us=5000,.firstDelayInTick=0}
+};
 
 
 

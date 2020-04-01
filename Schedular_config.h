@@ -10,7 +10,6 @@
 
 #define NUMBER_OF_TASKS    2
 #define TICK_TIME_US       5000
-#define INPUT_CLOCK        8000000
 
 
 #endif /* SCHEDULAR_CONFIG_H_ */
