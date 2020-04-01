@@ -74,7 +74,7 @@
 #define STATUS_BUSY		1
 
 #define CURSER_ENABLE	((u8)2)
-#define CURSER_ENABLE	((u8)0)
+#define CURSER_DISABLE	((u8)0)
 
 typedef u8 Status_t;
 
