@@ -49,7 +49,7 @@ void Sched_init(void)
 	}
 	SysTick_init();
 	SysTick_setCallBack(Sched_setOsFlag);
-	input_clock = SYS_HAN_getAHBClock();
+	input_clock = SYS_HAN_getSystemClock();
 	SysTick_setTime(TICK_TIME_US,input_clock);
 }
 

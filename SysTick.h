@@ -8,8 +8,8 @@
 #ifndef SYSTICK_H_
 #define SYSTICK_H_
 
-/* Clock Source for SysTick: EXTERNAL_REF_CLOCK
- *                           FREE_RUNNIG_CLOCK
+/* Systick ClockSrc :  EXTERNAL_REF_CLOCK
+ *                     FREE_RUNNIG_CLOCK
  */
 
 /* for st: FREE_RUNNIG_CLOCK  (processor clock AHB)
