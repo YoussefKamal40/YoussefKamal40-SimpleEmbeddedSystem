@@ -17,14 +17,14 @@ extern switch_type switches[NO_SWITCHES];
 
 u8 HSWITCH_getState(u8 switch_index)
 {	u8 state;
-	/*if((switches[switch_index].active_state == ACTIVE_LOW))
+	if((switches[switch_index].active_state == ACTIVE_LOW))
 	{
 		 state = 1^state_global[switch_index];
 	}
 	else
-	{*/
+	{
 		 state = state_global[switch_index];
-	//}
+	}
 	return state;
 }
 

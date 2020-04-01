@@ -14,12 +14,14 @@ switch_type switches[NO_SWITCHES]={
 		{
 				MODE_INPUT_PULL_UP,
 				ACTIVE_HIGH,
-				PORTA,PIN0
+				PORTA,
+				PIN0
 		}
 		,{
 				MODE_INPUT_PULL_DOWN,
 				ACTIVE_HIGH,
-				PORTA,PIN1
+				PORTA,
+				PIN1
 		}
 	};
 
