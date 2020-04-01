@@ -5,6 +5,7 @@
  *      Author: Esraa
  */
 #include "stdint.h"
+#include "STD_TYPES_H.h"
 #include "systemClockHandler_interface.h"
 #include"Schedular_config.h"
 #include "Schedular_interface.h"
@@ -29,6 +30,7 @@ static uint32_t iterator;
 static uint8_t OS_Flag;
 
 static void Sched_setOsFlag (void);
+static void Sched(void);
 
 void Sched_setOsFlag (void)
 {
