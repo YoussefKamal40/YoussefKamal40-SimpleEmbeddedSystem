@@ -6,9 +6,9 @@
  */
 
 #include "STD_TYPES_H.h"
+#include "GPIO_Interface.h"
 #include "SwitchHandler_interface.h"
 #include "SwitchHandler_config.h"
-#include "GPIO_Interface.h"
 
 u8 state_global[NO_SWITCHES];
 GPIO_pinType GPIOs[NO_SWITCHES];

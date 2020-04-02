@@ -363,3 +363,27 @@ static void LCD_8bitWriteProcess(void) {
 	}
 }
 
+/*void lcdnumberprinting(u32 num)
+{
+	u8 arr[100];
+	u8 i=0;
+while(num>=0)
+{
+	arr[i]=(num%10);
+	num=num/10;
+	i++;
+	if(num==0)
+		break;
+
+}
+
+for(u8 j=i-1; j>=0; j--)
+{
+CLCD_voidWriteData(arr[j]+48);
+if(j==0)
+	break;
+}
+
+}
+ *
+ */

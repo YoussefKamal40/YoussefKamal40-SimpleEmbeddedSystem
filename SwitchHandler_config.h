@@ -10,7 +10,7 @@
 
 
 
-#define NO_SWITCHES 	3
+#define NO_SWITCHES 	1
 #define DEBOUNCE_TIMEOUT		5
 
 
