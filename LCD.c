@@ -14,6 +14,7 @@
 #define NO_CONTROL_PINS		3
 #define NO_DATA_PINS		8
 
+#define MAX_WORD_SIZE	255
 #define RS 0
 #define RW 1
 #define E  2
@@ -64,15 +65,15 @@ cmd_proc,
 }process_t;
 
 
-static u8 userWord[255] ;
+static u8 userWord[MAX_WORD_SIZE] ;
 static u8 userWordLen;
 static u8 userCommand;
 static u8 initCompleteFlag = INIT_NOT_COMPLETED;
 static process_t currentProcess ;
 
 static u8 function_set=S2_VAR;
-static u8 display_control=S3_VAR;
-static u8 entry_mode=S5_VAR;
+//static u8 display_control=S3_VAR;
+//static u8 entry_mode=S5_VAR;
 
 static initState_t currentInitState;
 static GPIO_pinType lcd_control_pins[NO_CONTROL_PINS]={
@@ -148,7 +149,6 @@ return status;
 Status_t LCD_curserConterol(u8 cursermode)
 {
 	Status_t status;
-	u8 tempcmd;
 	if (currentProcess == idle_proc){
 
 		function_set &=CURSER_CLEAR;
@@ -362,10 +362,13 @@ static void LCD_8bitWriteProcess(void) {
 	}
 }
 
-/*void lcdnumberprinting(u32 num)
-{
-	u8 arr[100];
+Status_t lcdnumberprinting(u32 num)
+{	Status_t status;
+	u8 arr[MAX_WORD_SIZE];
 	u8 i=0;
+	s8 index;
+	if(currentProcess == idle_proc){
+
 while(num>=0)
 {
 	arr[i]=(num%10);
@@ -373,16 +376,20 @@ while(num>=0)
 	i++;
 	if(num==0)
 		break;
+	}
+	userWordLen =i;
+	for(index=i-1; index>=((u8)0); index--)
+	{
+	userWord[index]=(arr[index]+((u8)48));
+	}
+	currentProcess = write_proc;
+	status = STATUS_OK;
+	}
+	else{
+		status = STATUS_BUSY;
+		}
+	return status;
 
 }
 
-for(u8 j=i-1; j>=0; j--)
-{
-CLCD_voidWriteData(arr[j]+48);
-if(j==0)
-	break;
-}
 
-}
- *
- */

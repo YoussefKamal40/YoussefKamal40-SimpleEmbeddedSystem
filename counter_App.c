@@ -21,13 +21,13 @@ typedef u8 Status_type;
 #define STATUS_OK	0
 #define STATUS_NOK	0
 
+#define WORD_BYTE_SIZE	4
 #define SWITCH1_ID	0
 #define LED0_ID		0
 #define	COUNTER_ID	0X2311
 #define TOGGLE	1
 #define FIRST_DATA_WORD	0
 #define FOUR_CHARACTERS		4
-#define MAX_PROCESS_QUEUE_SIZE
 volatile u8 sendFlag;
 volatile u8 recieveFlag;
 
@@ -71,7 +71,7 @@ static Hamada_dataMailBoxType  ReciveDataMailbox;
 static u8 sendbuffer[MAX_FRAME_BYTE_SIZE];
 static u8 recievebuffer[MAX_FRAME_BYTE_SIZE];
 static u32 LED_State, LCD_string;
-
+static Hamada_parserStateType parser_doneFlag;
 
 
 void counterApp_runnable(void)
@@ -79,13 +79,8 @@ void counterApp_runnable(void)
 	static u8 sendSateDataFlag,instFlag;
 
 	updateSendMaileboxProcess();
-
-	if(recieveFlag)
-	{
 		UpdateHardwareProcess();
-		updateRecieveMailboxProcess();
-	}
-
+	updateRecieveMailboxProcess();
 	if(instFlag)
 	{
 		lcd_applyCommand(CMD_CLEAR_SCREEN);
@@ -103,7 +98,7 @@ void counterApp_runnable(void)
 			SendStateMailboxProcess();
 			sendSateDataFlag =1;
 		}
-		LCD_writeString((u8 *)&LCD_string,FOUR_CHARACTERS);
+		lcdnumberprinting(LCD_string);
 		instFlag=1;
 	}
 }
@@ -149,20 +144,25 @@ static void updateSendMaileboxProcess(void)
 static Status_type UpdateHardwareProcess(void)
 {
 	Status_type reciveStatus;
-	if(recieveFlag)
+	if(parser_doneFlag ==DONE)
 	{
 		 LED_State =ReciveStateMailbox.state;
-		 LCD_string='0'+ReciveDataMailbox.data[FIRST_DATA_WORD];
+		 LCD_string=ReciveDataMailbox.data[FIRST_DATA_WORD];
 		 reciveStatus=STATUS_OK;
 	}
-	reciveStatus =STATUS_NOK;
+	else
+	{
+		 reciveStatus=STATUS_NOK;
+	}
+	return reciveStatus;
 }
 
 static void updateRecieveMailboxProcess(void)
 {
-	u8 recieveDataSize;
-	 recieveDataSize = Hamada_frameParse(recievebuffer,&ReciveStateMailbox,&ReciveDataMailbox,&parserObject);
-	 ChipUSARTHandler_receiveBacket(0,recievebuffer,recieveDataSize,RecieveNotify);
+	if(recieveFlag){
+	parser_doneFlag = Hamada_frameParse(recievebuffer,&ReciveStateMailbox,&ReciveDataMailbox,&parserObject);
+	}
+	ChipUSARTHandler_receiveBacket(0,recievebuffer,WORD_BYTE_SIZE,RecieveNotify);
 	 recieveFlag =0;
 }
 
