@@ -151,9 +151,12 @@ Hamada_parserStateType Hamada_frameParse(u8* recivebuffer,Hamada_stateMailBoxTyp
 			object->state=IDLE;
 			currentState=DONE;
 		}
-		dataMailbox->data[object->dataIndex]=temp;
-		object->dataIndex++;
-		currentState=IDLE;
+		else
+		{
+			dataMailbox->data[object->dataIndex]=temp;
+			object->dataIndex++;
+			currentState=IDLE;
+		}
 		break;
 	default:
 		currentState=DONE;
