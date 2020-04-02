@@ -79,11 +79,14 @@ void counterApp_runnable(void)
 	static u8 sendSateDataFlag,instFlag;
 
 	updateSendMaileboxProcess();
+
 	if(parser_doneFlag ==DONE)
 	{
 	UpdateHardwareProcess();
-	updateRecieveMailboxProcess();
 	}
+	updateRecieveMailboxProcess();
+
+
 	if(instFlag)
 	{
 		lcd_applyCommand(CMD_CLEAR_SCREEN);
@@ -127,7 +130,7 @@ static void updateSendMaileboxProcess(void)
 {
 	static u32 SwitchCounter;
 	static u8 PressedFlag;
-;
+
 	if(HSWITCH_getState(SWITCH1_ID) == PRESSED_STATE &&(!PressedFlag))
 	{
 		PressedFlag=1;
@@ -150,9 +153,11 @@ static void UpdateHardwareProcess(void)
 
 static void updateRecieveMailboxProcess(void)
 {
+	if(recieveFlag){
 	parser_doneFlag = Hamada_frameParse(recievebuffer,&ReciveStateMailbox,&ReciveDataMailbox,&parserObject);
+	}
 	ChipUSARTHandler_receiveBacket(0,recievebuffer,WORD_BYTE_SIZE,RecieveNotify);
-
+	 recieveFlag =0;
 }
 
 
@@ -161,8 +166,13 @@ static void SendNotify(void)
 	sendFlag =1;
 }
 
+
 static void RecieveNotify(void)
 {
+
 	parser_doneFlag = Hamada_frameParse(recievebuffer,&ReciveStateMailbox,&ReciveDataMailbox,&parserObject);
-	ChipUSARTHandler_receiveBacket(0,recievebuffer,WORD_BYTE_SIZE,RecieveNotify);
+	if(parser_doneFlag == IDLE)
+	{
+		ChipUSARTHandler_receiveBacket(0,recievebuffer,WORD_BYTE_SIZE,RecieveNotify);
+	}
 }
