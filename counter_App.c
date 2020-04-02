@@ -12,33 +12,35 @@
 #include "LCD_interface.h"
 #include "SwitchHandler_interface.h"
 #include "LEDHandler_interface.h"
+#include "Schedular_interface.h"
 #include "ChipUSARTHandler_interface.h"
 #include "HamadaProtocol.h"
+
+typedef u8 Status_type;
+
+#define STATUS_OK	0
+#define STATUS_NOK	0
 
 #define SWITCH1_ID	0
 #define LED0_ID		0
 #define	COUNTER_ID	0X2311
-
 #define TOGGLE	1
+#define FIRST_DATA_WORD	0
+#define FOUR_CHARACTERS		4
+#define MAX_PROCESS_QUEUE_SIZE
 volatile u8 sendFlag;
 volatile u8 recieveFlag;
 
+//static u32 ProcessQueue[MAX_PROCESS_QUEUE_SIZE];
 static Hamada_parserObjectType parserObject;
 
 static void SendNotify(void);
 static void RecieveNotify(void);
-
-
-static void SendNotify(void)
-{
-	sendFlag =1;
-}
-
-static void RecieveNotify(void)
-{
-
-
-}
+static void updateRecieveMailboxProcess(void);
+static Status_type UpdateHardwareProcess(void);
+static void updateSendMaileboxProcess(void);
+static void SendDataMAilboxProcess(void);
+static void SendStateMailboxProcess(void);
 
 
 void counterApp_sysinit(void){
@@ -58,60 +60,120 @@ void counterApp_sysinit(void){
 	Sched_start();
 }
 
+
+
+static Hamada_stateMailBoxType LEDMailbox={NOT_PRESSED_STATE,LED0_ID,0};
+static Hamada_dataMailBoxType LCD_dataMailbox={{0},0,1};
+
+static Hamada_stateMailBoxType ReciveStateMailbox;
+static Hamada_dataMailBoxType  ReciveDataMailbox;
+
+static u8 sendbuffer[MAX_FRAME_BYTE_SIZE];
+static u8 recievebuffer[MAX_FRAME_BYTE_SIZE];
+static u32 LED_State, LCD_string;
+
+
+
 void counterApp_runnable(void)
 {
-	static u8 instFlag, PressedFlag;
-	static u32 counter;
-	static Hamada_stateMailBoxType LEDMailbox={NOT_PRESSED_STATE,LED0_ID,0};
-	static Hamada_dataMailBoxType LCD_dataMailbox={{0},0,1};
-	static u8 sendbuffer[MAX_FRAME_BYTE_SIZE];
-	static u8 recievebuffer[MAX_FRAME_BYTE_SIZE];
-	static Hamada_stateMailBoxType ReciveStateMailbox;
-	static Hamada_dataMailBoxType  ReciveDataMailbox;
-		u8 sentDataSize;
+	static u8 sendSateDataFlag,instFlag;
 
-	if(HSWITCH_getState(SWITCH1_ID) == PRESSED_STATE &&(!PressedFlag))
-	{
-
-		PressedFlag=1;
-	}
-	else if(HSWITCH_getState(SWITCH1_ID) == NOT_PRESSED_STATE &&(PressedFlag))
-	{
-		counter ++;
-		*(LCD_dataMailbox.data)=counter;
-		PressedFlag =0;
-		LEDMailbox.state^=TOGGLE;
-
-	}
+	updateSendMaileboxProcess();
 
 	if(recieveFlag)
 	{
-		 LED_setState(LED0_ID, ((u8)ReciveStateMailbox.state));
-		 lcd_applyCommand(CMD_CLEAR_SCREEN);
-		// LCD_writeString();
-
-
-		 Hamada_frameParse(recievebuffer,&ReciveStateMailbox,&ReciveDataMailbox,&parserObject);
-		 ChipUSARTHandler_receiveBacket(0,recievebuffer,sentDataSize,RecieveNotify);
+		UpdateHardwareProcess();
+		updateRecieveMailboxProcess();
 	}
 
 	if(instFlag)
 	{
-		if(sendFlag)
-		{
-			sentDataSize= Hamada_frameConstructor(sendbuffer,FRAME_CONSTRUCTOR_DATA,&LCD_dataMailbox);
-			instFlag = ChipUSARTHandler_sendBacket(0,sendbuffer,sentDataSize,SendNotify);
-		}
+		lcd_applyCommand(CMD_CLEAR_SCREEN);
+		instFlag=0;
 	}
 	else
 	{
-		if(sendFlag)
+		if(sendSateDataFlag)
 		{
-			sentDataSize= Hamada_frameConstructor(sendbuffer,FRAME_CONSTRUCTOR_STATE,&LEDMailbox);
-			instFlag = ChipUSARTHandler_sendBacket(0,sendbuffer,sentDataSize,SendNotify);
-			instFlag ^=TOGGLE;
+			SendDataMAilboxProcess();
+			sendSateDataFlag =1;
 		}
+		else
+		{
+			SendStateMailboxProcess();
+			sendSateDataFlag =1;
+		}
+		LCD_writeString((u8 *)&LCD_string,FOUR_CHARACTERS);
+		instFlag=1;
 	}
 }
 
 
+static void SendStateMailboxProcess(void)
+{
+	u8 sentDataSize;
+
+	sentDataSize= Hamada_frameConstructor(sendbuffer,FRAME_CONSTRUCTOR_STATE,&LEDMailbox);
+	ChipUSARTHandler_sendBacket(0,sendbuffer,sentDataSize,SendNotify);
+	sendFlag=0;
+}
+
+static void SendDataMAilboxProcess(void)
+{
+	u8 sentDataSize;
+
+	sentDataSize= Hamada_frameConstructor(sendbuffer,FRAME_CONSTRUCTOR_DATA,&LCD_dataMailbox);
+	ChipUSARTHandler_sendBacket(0,sendbuffer,sentDataSize,SendNotify);
+	sendFlag=0;
+}
+
+static void updateSendMaileboxProcess(void)
+{
+	static u32 SwitchCounter;
+	static u8 PressedFlag;
+;
+	if(HSWITCH_getState(SWITCH1_ID) == PRESSED_STATE &&(!PressedFlag))
+	{
+		PressedFlag=1;
+	}
+	else if(HSWITCH_getState(SWITCH1_ID) == NOT_PRESSED_STATE &&(PressedFlag))
+	{
+		SwitchCounter ++;
+		*(LCD_dataMailbox.data)=SwitchCounter;
+		LEDMailbox.state^=TOGGLE;
+		PressedFlag =0;
+	}
+}
+
+
+static Status_type UpdateHardwareProcess(void)
+{
+	Status_type reciveStatus;
+	if(recieveFlag)
+	{
+		 LED_State =ReciveStateMailbox.state;
+		 LCD_string='0'+ReciveDataMailbox.data[FIRST_DATA_WORD];
+		 reciveStatus=STATUS_OK;
+	}
+	reciveStatus =STATUS_NOK;
+}
+
+static void updateRecieveMailboxProcess(void)
+{
+	u8 recieveDataSize;
+	 recieveDataSize = Hamada_frameParse(recievebuffer,&ReciveStateMailbox,&ReciveDataMailbox,&parserObject);
+	 ChipUSARTHandler_receiveBacket(0,recievebuffer,recieveDataSize,RecieveNotify);
+	 recieveFlag =0;
+}
+
+
+static void SendNotify(void)
+{
+	sendFlag =1;
+}
+
+static void RecieveNotify(void)
+{
+
+	recieveFlag=1;
+}
