@@ -37,7 +37,7 @@ static Hamada_parserObjectType parserObject;
 static void SendNotify(void);
 static void RecieveNotify(void);
 static void updateRecieveMailboxProcess(void);
-static Status_type UpdateHardwareProcess(void);
+static void UpdateHardwareProcess(void);
 static void updateSendMaileboxProcess(void);
 static void SendDataMAilboxProcess(void);
 static void SendStateMailboxProcess(void);
@@ -79,7 +79,10 @@ void counterApp_runnable(void)
 	static u8 sendSateDataFlag,instFlag;
 
 	updateSendMaileboxProcess();
-		UpdateHardwareProcess();
+	if(parser_doneFlag ==DONE)
+	{
+	UpdateHardwareProcess();
+	}
 	updateRecieveMailboxProcess();
 	if(instFlag)
 	{
@@ -91,7 +94,7 @@ void counterApp_runnable(void)
 		if(sendSateDataFlag)
 		{
 			SendDataMAilboxProcess();
-			sendSateDataFlag =1;
+			sendSateDataFlag =0;
 		}
 		else
 		{
@@ -102,8 +105,6 @@ void counterApp_runnable(void)
 		instFlag=1;
 	}
 }
-
-
 static void SendStateMailboxProcess(void)
 {
 	u8 sentDataSize;
@@ -141,20 +142,10 @@ static void updateSendMaileboxProcess(void)
 }
 
 
-static Status_type UpdateHardwareProcess(void)
+static void UpdateHardwareProcess(void)
 {
-	Status_type reciveStatus;
-	if(parser_doneFlag ==DONE)
-	{
 		 LED_State =ReciveStateMailbox.state;
 		 LCD_string=ReciveDataMailbox.data[FIRST_DATA_WORD];
-		 reciveStatus=STATUS_OK;
-	}
-	else
-	{
-		 reciveStatus=STATUS_NOK;
-	}
-	return reciveStatus;
 }
 
 static void updateRecieveMailboxProcess(void)
