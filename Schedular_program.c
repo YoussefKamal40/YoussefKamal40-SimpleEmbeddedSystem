@@ -26,7 +26,7 @@ typedef struct
 
 sysTask_t sysTask[NUMBER_OF_TASKS];
 
-static uint32_t iterator;
+static uint32_t CurrentTaskIndex;
 static uint8_t OS_Flag;
 
 static void Sched_setOsFlag (void);
@@ -40,12 +40,12 @@ void Sched_setOsFlag (void)
 void Sched_init(void)
 {
     uint32_t input_clock;
-	for(iterator=0; iterator< NUMBER_OF_TASKS ; iterator++)
+	for(CurrentTaskIndex=0; CurrentTaskIndex< NUMBER_OF_TASKS ; CurrentTaskIndex++)
 	{
-		sysTask[iterator].taskConfig = &sysTaskConfig[iterator];
-		sysTask[iterator].periodicityinTicks = sysTaskConfig[iterator].periodicity_us /TICK_TIME_US;
-		sysTask[iterator].ticksToExecute = sysTaskConfig[iterator].firstDelayInTick;
-		sysTask[iterator].state = STATE_RUNNING;
+		sysTask[CurrentTaskIndex].taskConfig = &sysTaskConfig[CurrentTaskIndex];
+		sysTask[CurrentTaskIndex].periodicityinTicks = sysTaskConfig[CurrentTaskIndex].periodicity_us /TICK_TIME_US;
+		sysTask[CurrentTaskIndex].ticksToExecute = sysTaskConfig[CurrentTaskIndex].firstDelayInTick;
+		sysTask[CurrentTaskIndex].state = STATE_RUNNING;
 	}
 	SysTick_init();
 	SysTick_setCallBack(Sched_setOsFlag);
@@ -55,14 +55,14 @@ void Sched_init(void)
 
 void Sched(void)
 {
-	for(iterator=0 ;iterator< NUMBER_OF_TASKS ; iterator++)
+	for(CurrentTaskIndex=0 ;CurrentTaskIndex< NUMBER_OF_TASKS ; CurrentTaskIndex++)
 	{
-		if(sysTask[iterator].ticksToExecute== 0 && sysTask[iterator].state==STATE_RUNNING)
+		if(sysTask[CurrentTaskIndex].ticksToExecute== 0 && sysTask[CurrentTaskIndex].state==STATE_RUNNING)
 		{
-			sysTask[iterator].taskConfig->taskRunnable() ;
-			sysTask[iterator].ticksToExecute = sysTask[iterator].periodicityinTicks;
+			sysTask[CurrentTaskIndex].taskConfig->taskRunnable() ;
+			sysTask[CurrentTaskIndex].ticksToExecute = sysTask[CurrentTaskIndex].periodicityinTicks;
 		}
-		sysTask[iterator].ticksToExecute --;
+		sysTask[CurrentTaskIndex].ticksToExecute --;
 	}
 }
 
@@ -81,5 +81,5 @@ void Sched_start(void)
 
 void Sched_suspend(void)
 {
-	sysTask[iterator].state = STATE_SUSPENDED;
+	sysTask[CurrentTaskIndex].state = STATE_SUSPENDED;
 }
