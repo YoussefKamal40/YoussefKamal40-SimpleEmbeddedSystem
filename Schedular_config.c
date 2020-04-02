@@ -14,9 +14,9 @@ void counterApp_runnable(void);
 
 const taskConfig_t sysTaskConfig[NUMBER_OF_TASKS]=
 {
-	{.taskRunnable=&HSWITCH_debounce_runnable,.periodicity_us=5000,.firstDelayInTick=15},
+	{.taskRunnable=&HSWITCH_debounce_runnable,.periodicity_us=5000,.firstDelayInTick=0},
 	{.taskRunnable=&LCD_runnable,.periodicity_us=5000,.firstDelayInTick=0},
-	{.taskRunnable=&counterApp_runnable,.periodicity_us=5000,.firstDelayInTick=20}
+	{.taskRunnable=&counterApp_runnable,.periodicity_us=5000,.firstDelayInTick=0}
 };
 
 
