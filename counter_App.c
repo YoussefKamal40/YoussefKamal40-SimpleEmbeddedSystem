@@ -169,7 +169,7 @@ static void SendNotify(void)
 
 static void RecieveNotify(void)
 {
-
+	 recieveFlag =1;
 	parser_doneFlag = Hamada_frameParse(recievebuffer,&ReciveStateMailbox,&ReciveDataMailbox,&parserObject);
 	if(parser_doneFlag == IDLE)
 	{
