@@ -72,6 +72,7 @@ static u8 sendbuffer[MAX_FRAME_BYTE_SIZE];
 static u8 recievebuffer[MAX_FRAME_BYTE_SIZE];
 static u32 LED_State, LCD_string;
 static Hamada_parserStateType parser_doneFlag;
+static u8 doneframeFlag;
 
 
 void counterApp_runnable(void)
@@ -84,7 +85,10 @@ void counterApp_runnable(void)
 	{
 	UpdateHardwareProcess();
 	}
-	updateRecieveMailboxProcess();
+	if(!doneframeFlag){
+		updateRecieveMailboxProcess();
+	}
+
 
 
 	if(instFlag)
@@ -156,8 +160,11 @@ static void updateRecieveMailboxProcess(void)
 	if(recieveFlag){
 	parser_doneFlag = Hamada_frameParse(recievebuffer,&ReciveStateMailbox,&ReciveDataMailbox,&parserObject);
 	}
+	if(parser_doneFlag == DONE)
+	{
 	ChipUSARTHandler_receiveBacket(0,recievebuffer,WORD_BYTE_SIZE,RecieveNotify);
-	 recieveFlag =0;
+	}
+	recieveFlag =0;
 }
 
 
@@ -174,5 +181,9 @@ static void RecieveNotify(void)
 	if(parser_doneFlag == IDLE)
 	{
 		ChipUSARTHandler_receiveBacket(0,recievebuffer,WORD_BYTE_SIZE,RecieveNotify);
+	}
+	else
+	{
+		doneframeFlag =0;
 	}
 }
