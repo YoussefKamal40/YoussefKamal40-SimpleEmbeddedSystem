@@ -82,8 +82,8 @@ void counterApp_runnable(void)
 	if(parser_doneFlag ==DONE)
 	{
 	UpdateHardwareProcess();
-	}
 	updateRecieveMailboxProcess();
+	}
 	if(instFlag)
 	{
 		lcd_applyCommand(CMD_CLEAR_SCREEN);
@@ -150,11 +150,9 @@ static void UpdateHardwareProcess(void)
 
 static void updateRecieveMailboxProcess(void)
 {
-	if(recieveFlag){
 	parser_doneFlag = Hamada_frameParse(recievebuffer,&ReciveStateMailbox,&ReciveDataMailbox,&parserObject);
-	}
 	ChipUSARTHandler_receiveBacket(0,recievebuffer,WORD_BYTE_SIZE,RecieveNotify);
-	 recieveFlag =0;
+
 }
 
 
@@ -165,6 +163,6 @@ static void SendNotify(void)
 
 static void RecieveNotify(void)
 {
-
-	recieveFlag=1;
+	parser_doneFlag = Hamada_frameParse(recievebuffer,&ReciveStateMailbox,&ReciveDataMailbox,&parserObject);
+	ChipUSARTHandler_receiveBacket(0,recievebuffer,WORD_BYTE_SIZE,RecieveNotify);
 }
