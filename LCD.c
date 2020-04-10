@@ -116,7 +116,7 @@ currentProcess = idle_proc;
 currentInitState =s1;
 }
 
-Status_t lcd_applyCommand(u8 cmd)
+Status_t LCD_applyCommand(u8 cmd)
 {
 Status_t status;
 if(currentProcess == idle_proc){
@@ -362,7 +362,7 @@ static void LCD_8bitWriteProcess(void) {
 	}
 }
 
-Status_t lcdnumberprinting(u32 num)
+Status_t LCD_numberprinting(u32 num)
 {	Status_t status;
 	u8 arr[MAX_WORD_SIZE];
 	u8 i=0;

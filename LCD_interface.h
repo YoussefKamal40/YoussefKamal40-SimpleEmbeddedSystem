@@ -83,7 +83,8 @@ void LCD_runnable(void);
 
 Status_t LCD_moveXY(u8 x, u8 y);
 Status_t LCD_writeString(const u8 * word, u8 length);
-Status_t lcd_applyCommand(u8 cmd);
+Status_t LCD_applyCommand(u8 cmd);
 Status_t LCD_curserConterol(u8 cursermode);
-Status_t lcdnumberprinting(u32 num);
+Status_t LCD_numberprinting(u32 num);
+
 #endif /* LCD_INTERFACE_H_ */
