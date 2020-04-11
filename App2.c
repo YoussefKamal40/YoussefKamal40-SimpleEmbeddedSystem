@@ -139,10 +139,8 @@ void clockupdate(void)
 }
 
 
-
 void cb_clock(void)
 {
-
 	u8 sec=((u16*)rowDataPtr)[0];
 	u8 min=(((u16*)rowDataPtr)[0])>>8;
 	u8 hour=((u16*)rowDataPtr)[1];
@@ -153,32 +151,3 @@ void cb_clock(void)
 	Queue(LCD_writeString,colon);
 	Queue(lcdnumberprinting,sec);
 }
-
-
-Status_t LCD_moveXY_QWrap(u32 data);
-Status_t LCD_writeString_QWrap(u32 data);
-Status_t LCD_applyCommand_QWrap(u32 data);
-Status_t LCD_curserConterol_QWrap(u32 data);
-Status_t LCD_numberprinting_QWrap(u32 data);
-
-
-Status_t LCD_moveXY_QWrap(u32 data)
-{	Status_t local_status;
-	local_status = LCD_moveXY((u8)data,(u8)(data>>8));
-	return local_status;
-}
-Status_t LCD_writeString_QWrap(u32 data)
-{
-	Status_t local_status;
-	local_status = LCD_writeString(&data);
-	return local_status;
-}
-
-Status_t LCD_applyCommand_QWrap(u32 data)
-{
-	Status_t local_status;
-	local_status = LCD_applyCommand((u8)data);
-	return local_status;
-}
-Status_t LCD_curserConterol_QWrap(u32 data);
-Status_t LCD_numberprinting_QWrap(u32 data);
