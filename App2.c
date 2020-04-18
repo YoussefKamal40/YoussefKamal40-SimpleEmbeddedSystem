@@ -8,7 +8,6 @@
 #include "STD_TYPES_H.h"
 #include "LCD_interface.h"
 
-static u32 seconds,minutes,hours;
 #define MAX_OF_SEC	59
 #define MAX_OF_MIN	59
 #define MAX_OF_HR	23
@@ -30,13 +29,8 @@ static u32 seconds,minutes,hours;
 //jan,mar,may,july,oct,dec,ogust
 #define NO_MONTH		12
 #define ARRAY_OFFSET	1
-
-typedef struct{
-		void * func;
-		u32 arg;
-}Queue_t;
-
-static Queue_t Queue[10];
+#define SECOND_BYTE		8
+static u32 seconds,minutes,hours;
 
 const u8 max_month_days[NO_MONTH]={  JAN
 									,FEB
@@ -106,12 +100,6 @@ static void ClockUpdate1(void)
 	seconds=temp -(MINUTE_SECOND_ADJUST*minutes);
 }
 
-
-void LCD_curser(void)
-{
-
-
-}
 void clockupdate(void)
 
 {
@@ -138,7 +126,7 @@ void clockupdate(void)
 		}
 }
 
-
+/*
 void cb_clock(void)
 {
 	u8 sec=((u16*)rowDataPtr)[0];
@@ -151,3 +139,23 @@ void cb_clock(void)
 	Queue(LCD_writeString,colon);
 	Queue(lcdnumberprinting,sec);
 }
+*/
+
+
+
+
+/**************************LCD_Qwarping********************************************************/
+Status_t LCD_QmoveXY(u32 coord )
+{
+	u8 x=(u8)coord;
+	u8 y=(u8)(coord>>SECOND_BYTE);
+	return LCD_moveXY(x,y);
+}
+
+Status_t LCD_writeString(u32 word)
+{
+
+}
+Status_t LCD_applyCommand(u8 cmd);
+Status_t LCD_curserConterol(u8 cursermode);
+Status_t LCD_numberprinting(u32 num);

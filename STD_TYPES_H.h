@@ -19,6 +19,8 @@ typedef   f32* pf32;
 typedef   f64* pf64;
 typedef unsigned char error_type;
 
+#define NULL		((void *)0)
+
 #define OK	0
 #define NOK	1
 #endif
