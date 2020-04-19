@@ -5,8 +5,8 @@
  *      Author: Sarah
  */
 
-#include "STD_TYPES_H.h"
-#include "LCD_interface.h"
+#include "LIB/STD_TYPES_H.h"
+#include "HAL/HLCD/LCD_interface.h"
 
 #define MAX_OF_SEC	59
 #define MAX_OF_MIN	59
@@ -31,7 +31,7 @@
 #define ARRAY_OFFSET	1
 #define SECOND_BYTE		8
 static u32 seconds,minutes,hours;
-
+static u8 days,months,year;
 const u8 max_month_days[NO_MONTH]={  JAN
 									,FEB
 									,MAR
@@ -151,7 +151,7 @@ Status_t LCD_QmoveXY(u32 coord )
 	u8 y=(u8)(coord>>SECOND_BYTE);
 	return LCD_moveXY(x,y);
 }
-
+/*
 Status_t LCD_writeString(u32 word)
 {
 
@@ -159,3 +159,4 @@ Status_t LCD_writeString(u32 word)
 Status_t LCD_applyCommand(u8 cmd);
 Status_t LCD_curserConterol(u8 cursermode);
 Status_t LCD_numberprinting(u32 num);
+*/

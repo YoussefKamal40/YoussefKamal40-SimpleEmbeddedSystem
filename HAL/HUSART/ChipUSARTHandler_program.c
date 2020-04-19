@@ -1,9 +1,9 @@
-#include "STD_TYPES_H.h"
+#include "../../LIB/STD_TYPES_H.h"
 #include "ChipUSARTHandler_interface.h"
-#include "USART_interface.h"
+#include "../../MCAL/USART/USART_interface.h"
 #include "ChipUSARTHandler_config.h"
-#include "GPIO_Interface.h"
-#include "RCC_interface.h"
+#include "../../MCAL/GPIO/GPIO_Interface.h"
+#include "../../MCAL/RCC/RCC_interface.h"
 
 extern ChipUSARTHandler_configType ChipUSARTHandler_config[NUMBER_OF_CHIPS];
 

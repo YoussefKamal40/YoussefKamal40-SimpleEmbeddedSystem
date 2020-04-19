@@ -4,17 +4,17 @@
  *  Created on: Apr 2, 2020
  *      Author: LENOVO.SXM1
  */
-#include "STD_TYPES_H.h"
+#include "LIB/STD_TYPES_H.h"
 #include "Counter_app_interface.h"
 #include "stdint.h"
-#include "systemClockHandler_interface.h"
-#include "RCC_interface.h"
-#include "LCD_interface.h"
-#include "SwitchHandler_interface.h"
-#include "LEDHandler_interface.h"
-#include "Schedular_interface.h"
-#include "ChipUSARTHandler_interface.h"
-#include "HamadaProtocol.h"
+#include "HAL/HSYSTEM/systemClockHandler_interface.h"
+#include "MCAL/RCC/RCC_interface.h"
+#include "HAL/HLCD/LCD_interface.h"
+#include "HAL/HSWITCH/SwitchHandler_interface.h"
+#include "HAL/HLED/LEDHandler_interface.h"
+#include "SERVICE/SCHED/Schedular_interface.h"
+#include "HAL/HUSART/ChipUSARTHandler_interface.h"
+#include "LIB/HamadaProtocol.h"
 
 typedef u8 Status_type;
 

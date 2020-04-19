@@ -1,4 +1,4 @@
-#include "STD_TYPES_H.h"
+#include "../../LIB/STD_TYPES_H.h"
 #include "GPIO_Interface.h"
 
 #define GPIO_u8_CONFIG_BITS_NUMBER ((u8)4)

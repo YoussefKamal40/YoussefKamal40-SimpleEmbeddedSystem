@@ -1,7 +1,7 @@
-#include "STD_TYPES_H.h"
+#include "../../LIB/STD_TYPES_H.h"
 #include "ChipUSARTHandler_interface.h"
 #include "ChipUSARTHandler_config.h"
-#include "USART_interface.h"
+#include "../../MCAL/USART/USART_interface.h"
 
 const ChipUSARTHandler_configType ChipUSARTHandler_config [NUMBER_OF_CHIPS]=
 {

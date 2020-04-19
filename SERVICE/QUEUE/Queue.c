@@ -5,10 +5,10 @@
  *      Author: LENOVO.SXM1
  */
 
-#include "STD_TYPES_H.h"
+#include "../../LIB/STD_TYPES_H.h"
 #include "Queue.h"
 #include "Queue_config.h"
-
+#define EMPTY_QUEUE 0
  struct {
 	elemt_t *queue;
 	u8 Q_top;
@@ -21,29 +21,29 @@ elemt_t elements[SIZE_OF_QUEUE];
 
 void queue_init(void)
 {
-	Q->Q_top=0;
-	Q->Q_buttom =0;
-	Q->Q_numberOfElements=0;
-	Q->Q_size=SIZE_OF_QUEUE;
+	Q.Q_top=0;
+	Q.Q_buttom =0;
+	Q.Q_numberOfElements=0;
+	Q.Q_size=SIZE_OF_QUEUE;
 }
 
 u8 queue( elemt_t element)
 {
 	u8 local_error=OK;
-	if(Q->Q_numberOfElements == SIZE_OF_QUEUE)
+	if(Q.Q_numberOfElements == SIZE_OF_QUEUE)
 	{
 		local_error= NOK;
 	}
-	else if(Q->Q_top == (SIZE_OF_QUEUE-1))
+	else if(Q.Q_top == (SIZE_OF_QUEUE-1))
 	{
-		Q->queue[Q->Q_top]=element;
-		Q->Q_top=0;
+		Q.queue[Q.Q_top]=element;
+		Q.Q_top=0;
 
 	}
 	else
 	{
-		Q->queue[Q->Q_top]=element;
-		Q->Q_top++;
+		Q.queue[Q.Q_top]=element;
+		Q.Q_top++;
 	}
 
 	return local_error;
@@ -53,20 +53,20 @@ u8 queue( elemt_t element)
 u8 dequeue(elemt_t * element)
 {
 	u8 local_error=OK;
-	if(Q->Q_numberOfElements == EMPTY_QUEUE)
+	if(Q.Q_numberOfElements == EMPTY_QUEUE)
 	{
 		local_error= NOK;
 	}
 	else
 	{
-		*element =Q->queue[Q->Q_buttom];
-		if(Q->Q_buttom == (SIZE_OF_QUEUE-1))
+		*element =Q.queue[Q.Q_buttom];
+		if(Q.Q_buttom == (SIZE_OF_QUEUE-1))
 		{
-			Q->Q_buttom=0;
+			Q.Q_buttom=0;
 		}
 		else
 		{
-			Q->Q_buttom++;
+			Q.Q_buttom++;
 		}
 	}
 	return local_error;
@@ -75,13 +75,13 @@ u8 dequeue(elemt_t * element)
 u8 peak(elemt_t * element)
 {
 	u8 local_error=OK;
-	if(Q->Q_numberOfElements == EMPTY_QUEUE)
+	if(Q.Q_numberOfElements == EMPTY_QUEUE)
 	{
 		local_error= NOK;
 	}
 	else
 	{
-		*element =Q->queue[Q->Q_buttom];
+		*element =Q.queue[Q.Q_buttom];
 	}
 	return local_error;
 }
@@ -98,7 +98,7 @@ u8 dequeue_func(void)
 	else
 	{
 
-		if(( (element->func)()(element->arg) ))
+		if(( element.func(element.arg)))
 		{
 			 dequeue(&element);
 		}

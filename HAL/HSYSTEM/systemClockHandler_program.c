@@ -1,5 +1,5 @@
-#include "STD_TYPES_H.h"
-#include "RCC_interface.h"
+#include "../../LIB/STD_TYPES_H.h"
+#include "../../MCAL/RCC/RCC_interface.h"
 #include "systemClockHandler_config.h"
 #include "systemClockHandler_interface.h"
 

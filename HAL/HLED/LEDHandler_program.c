@@ -1,5 +1,5 @@
-#include "STD_TYPES_H.h"
-#include "GPIO_Interface.h"
+#include "../../LIB/STD_TYPES_H.h"
+#include "../../MCAL/GPIO/GPIO_Interface.h"
 #include "LEDHandler_interface.h"
 #include "LEDHandler_config.h"
 

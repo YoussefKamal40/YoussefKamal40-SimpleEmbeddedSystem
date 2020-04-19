@@ -5,8 +5,8 @@
  *      Author: Sarah
  */
 
-#include "STD_TYPES_H.h"
-#include "GPIO_Interface.h"
+#include "../../LIB/STD_TYPES_H.h"
+#include "../../MCAL/GPIO/GPIO_Interface.h"
 #include "SwitchHandler_interface.h"
 #include "SwitchHandler_config.h"
 

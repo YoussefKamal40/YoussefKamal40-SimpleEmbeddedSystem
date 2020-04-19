@@ -5,11 +5,11 @@
  *      Author: Esraa
  */
 #include "stdint.h"
-#include "STD_TYPES_H.h"
-#include "systemClockHandler_interface.h"
+#include "../../LIB/STD_TYPES_H.h"
+#include "../../HAL/HSYSTEM/systemClockHandler_interface.h"
 #include"Schedular_config.h"
 #include "Schedular_interface.h"
-#include "SysTick.h"
+#include "../../MCAL/SYSTICK/SysTick.h"
 
 #define STATE_RUNNING     1
 #define STATE_SUSPENDED   0
