@@ -11,7 +11,7 @@
 typedef struct{
 		u8 (*func)(u32);
 		u32 arg;
-}elemt_t;
+}element_t;
 
 #define SIZE_OF_QUEUE	3
 

@@ -8,16 +8,18 @@
 #include "../../LIB/STD_TYPES_H.h"
 #include "Queue.h"
 #include "Queue_config.h"
+
 #define EMPTY_QUEUE 0
- struct {
-	elemt_t *queue;
+
+struct {
+	element_t *queue;
 	u8 Q_top;
 	u8 Q_buttom;
 	u8 Q_size;
 	u8 Q_numberOfElements;
 }Q;
 
-elemt_t elements[SIZE_OF_QUEUE];
+element_t elements[SIZE_OF_QUEUE];
 
 void queue_init(void)
 {
@@ -27,7 +29,7 @@ void queue_init(void)
 	Q.Q_size=SIZE_OF_QUEUE;
 }
 
-u8 queue( elemt_t element)
+u8 queue( element_t element)
 {
 	u8 local_error=OK;
 	if(Q.Q_numberOfElements == SIZE_OF_QUEUE)
@@ -50,7 +52,7 @@ u8 queue( elemt_t element)
 
 }
 
-u8 dequeue(elemt_t * element)
+u8 dequeue(element_t * element)
 {
 	u8 local_error=OK;
 	if(Q.Q_numberOfElements == EMPTY_QUEUE)
@@ -72,7 +74,7 @@ u8 dequeue(elemt_t * element)
 	return local_error;
 }
 
-u8 peak(elemt_t * element)
+u8 peak(element_t * element)
 {
 	u8 local_error=OK;
 	if(Q.Q_numberOfElements == EMPTY_QUEUE)
@@ -89,8 +91,8 @@ u8 peak(elemt_t * element)
 
 u8 dequeue_func(void)
 {
-	u8 local_error=OK,status;
-	elemt_t element;
+	u8 local_error=OK;
+	element_t element;
 	if(peak(&element))
 	{
 		local_error = NOK;
