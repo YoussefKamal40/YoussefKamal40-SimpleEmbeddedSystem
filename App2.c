@@ -6,7 +6,7 @@
  */
 
 #include "LIB/STD_TYPES_H.h"
-#include "HAL/HLCD/LCD_interface.h"
+#include "HAL/HLCD/LCD_interfaces.h"
 #include "SERVICE/QUEUE/Queue.h"
 
 #define MAX_OF_SEC	59
@@ -32,8 +32,7 @@
 #define NO_MONTH		12
 #define ARRAY_OFFSET	1
 #define SECOND_BYTE		8
-#define WORD_LENGTH		3
-#define COLON			":"
+#define WORD_LENGTH		5
 static u32 seconds,minutes,hours;
 static u8 days,months,year;
 
@@ -51,18 +50,18 @@ const u8 max_month_days[NO_MONTH]={  JAN
 									,DEC};
 
 
-const u8* month_str[NO_MONTH]={   "JAN"
-								,"FEB"
-								,"MAR"
-								,"APR"
-								,"MAY"
-								,"JUNE"
-								,"JULY"
-								,"AGU"
-								,"SEP"
-								,"OCT"
-								,"NOV"
-								,"DEC"};
+const u8* month_str[NO_MONTH]={   " JAN "
+								," FEB "
+								," MAR "
+								," APR "
+								," MAY "
+								," JUNE "
+								," JULY "
+								," AGU "
+								," SEP "
+								," OCT "
+								," NOV "
+								," DEC "};
 
 static void * rowDataPtr;
 
@@ -138,23 +137,28 @@ void cb_clock(void)
 	u8 min=(((u16*)rowDataPtr)[0])>>8;
 	u8 hour=((u16*)rowDataPtr)[1];
 	element_t temp,temp1;
-	temp.func=LCD_numberprinting;
-	temp.arg=hour;
-	queue(temp);
-	temp1.func=LCD_writeString;
-	temp1.arg=COLON;
+	temp.func=LCD_applyCommand;
+	temp.arg=CMD_CLEAR_SCREEN;
 	queue(temp);
 	temp.func=LCD_numberprinting;
 	temp.arg=hour;
 	queue(temp);
-	queue(LCD_writeString,colon);
-	queue(lcdnumberprinting,sec);
+	temp1.func=LCD_QwriteColon;
+	queue(temp1);
+	temp.arg=min;
+	queue(temp);
+	queue(temp1);
+	temp.arg=sec;
+	queue(temp);
+
 }
 
 
 /***************************LCD_Qwarping****************************************************/
 Status_t LCD_QwriteString(u32* word);
 Status_t LCD_QmoveXY(u32 coord );
+Status_t LCD_QwriteColon(u32* word);
+Status_t LCD_QwriteSlash(u32* word);
 
 Status_t LCD_QmoveXY(u32 coord )
 {
@@ -167,3 +171,10 @@ Status_t LCD_QwriteString(u32* word)
 {
 	return LCD_writeString(&word,WORD_LENGTH);
 }
+
+Status_t LCD_QwriteColon(u32* word)
+{
+	return LCD_writeString(":",1);
+}
+
+

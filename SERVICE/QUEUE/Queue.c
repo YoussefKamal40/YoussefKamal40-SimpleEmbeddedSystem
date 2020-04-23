@@ -13,8 +13,8 @@
 
 struct {
 	element_t *queue;
-	u8 Q_top;
-	u8 Q_buttom;
+	u8 Q_head;
+	u8 Q_tail;
 	u8 Q_size;
 	u8 Q_numberOfElements;
 }Q;
@@ -23,8 +23,8 @@ element_t elements[SIZE_OF_QUEUE];
 
 void queue_init(void)
 {
-	Q.Q_top=0;
-	Q.Q_buttom =0;
+	Q.Q_head=0;
+	Q.Q_tail =0;
 	Q.Q_numberOfElements=0;
 	Q.Q_size=SIZE_OF_QUEUE;
 }
@@ -36,16 +36,16 @@ u8 queue( element_t element)
 	{
 		local_error= NOK;
 	}
-	else if(Q.Q_top == (SIZE_OF_QUEUE-1))
+	else if(Q.Q_head == (SIZE_OF_QUEUE-1))
 	{
-		Q.queue[Q.Q_top]=element;
-		Q.Q_top=0;
+		Q.queue[Q.Q_head]=element;
+		Q.Q_head=0;
 
 	}
 	else
 	{
-		Q.queue[Q.Q_top]=element;
-		Q.Q_top++;
+		Q.queue[Q.Q_head]=element;
+		Q.Q_head++;
 	}
 
 	return local_error;
@@ -61,14 +61,14 @@ u8 dequeue(element_t * element)
 	}
 	else
 	{
-		*element =Q.queue[Q.Q_buttom];
-		if(Q.Q_buttom == (SIZE_OF_QUEUE-1))
+		*element =Q.queue[Q.Q_tail];
+		if(Q.Q_tail == (SIZE_OF_QUEUE-1))
 		{
-			Q.Q_buttom=0;
+			Q.Q_tail=0;
 		}
 		else
 		{
-			Q.Q_buttom++;
+			Q.Q_tail++;
 		}
 	}
 	return local_error;
@@ -83,7 +83,7 @@ u8 peak(element_t * element)
 	}
 	else
 	{
-		*element =Q.queue[Q.Q_buttom];
+		*element =Q.queue[Q.Q_tail];
 	}
 	return local_error;
 }
